@@ -1,0 +1,57 @@
+
+\section{Infinite-Dimensional Fisher Markets} \label{sec:inf-dim-fim-setup}
+
+\paragraph{Measure-theoretic preliminaries.} 
+First, we introduce the measure-theoretic concepts that we will need. 
+The following paragraph can be skimmed and referred back to later. 
+The items will be represented by $\Theta$, a compact subset of $\RR^d$. Denote the Lebesgue measure on $\RR^d$ as $\mu$. 
+Since $\Theta$ is compact, it is (Borel) measurable and $\mu(\Theta) < \infty$. 
+In fact, any function $f$ in this equivalence class give the same linear functional $g\mapsto \int_\Theta fg d\mu$. 
+The suffix a.e. will be omitted unless the emphasis is necessary. For any set $S$ of measurable functions on $\Theta$, denote $S_+ = \{ f\in S: f\geq 0\}$. 
+For $f \in L^1(\Theta)$ and $g\in L^\infty(\Theta)$, denote $\langle f, g\rangle = \int_\Theta fg d \mu$. Since $L^\infty(\Theta)$ is the dual space of $L^1(\Theta)$, the integration $\int_\Theta fgd\mu$ is well-defined and is finite.
+Let $\ones$ be the constant function taking value $1$ on $\Theta$. For any measurable set $A\subseteq \Theta$, denote $\ones_A$ as the $\{0,1\}$-indicator function of $A$. 
+For $q \in [1, \infty]$, let $L_q(\Theta)$ be the Banach space of $L^q$ (integrable) functions on $\Theta$ with the usual $L^q$ norm, that is, 
+$ \|f\| = \int_\Theta |f|^q d\mu$ if $ 1\leq q< \infty$ and $\inf \{ M > 0: |f| \leq M\, {\rm a.e.}$ if $q=\infty$.
+Any $\tau \in L^1(\Theta)_+$ can also be viewed as a measure on $\Theta$ via $\mu_\tau(A):= \int_A \tau d\mu $ for any measurable set $A\subseteq \Theta$. In this work, we will denote the measure $\mu_\tau$ simply as $\tau$.
+% Here, $\tau$ is in fact the Radon–Nikodym derivative of $\mu_\tau$ w.r.t. $\mu$. 
+Unless otherwise stated, any measure $m$ used or constructed is absolutely continuous w.r.t. the Lebesgue measure $\mu$ and hence \textit{atomless}. In other words, for any measurable set $A\subseteq \Theta$ such that $m(A) > 0$ and any $0 < c < m(A)$, there exists a measurable subset $B\subseteq A$ such that $m(B) = c$. 
+Two measurable sets $A, B\subseteq \Theta$ are said to be \emph{a.e.-disjoint} if $\mu(A\cap B) = 0$.
+% We say that $\{\Theta_i\}$ is a \textit{measurable partition} of $\Theta$ if all $\Theta_i\subset\Theta$ are measurable and pairwise a.e.-disjoint. 
+We use equations and inequalities involving measurable functions to denote the corresponding (measurable) \emph{preimages} in $\Theta$.
+For example, $\{ f \leq 0 \} := \{ \theta\in \Theta: f(\theta) \leq 0 \}$ and $\{ f \leq g \} := \{ \theta\in \Theta: f(\theta) \leq g(\theta) \}$.
+
+\paragraph{Fisher market.} 
+Here, we formally describe the infinite-dimensional (linear) Fisher market setup that we use throughout this work. 
+There are $n$ buyers and an item space $\Theta$, which is a compact subset of $\RR^d$.  
+Each buyer has a valuation over the item space $v_i\in L^1(\Theta)_+$ (nonnegative $L^1$ functions on $\Theta$). 
+The items' prices $p\in L^1(\Theta)_+$ live in the same space as valuations. 
+An allocation of items to a buyer $i$ is denoted by $x_i \in L^\infty(\Theta)_+$. We use $x = (x_1, \dots, x_n) \in (L^\infty(\Theta)_+)^n$ to denote the aggregate allocation. 
+An allocation $x$ is said to be a \textit{pure} allocation (or a pure solution, when viewed as variables of a convex program) if for all $i$, $x_i = \ones_{\Theta_i}$ for \textit{a.e.-disjoint} measurable sets $\Theta_i\subseteq \Theta$ (where leftover is allowed, i.e., $\Theta \setminus (\cup_i \Theta_i) \neq \emptyset$). 
+When $x$ is a pure allocation (solution), we also denote $x$ as $\{\Theta_i\}$. 
+An allocation is \textit{mixed} if it is not pure, or equivalently, the set $\{0< x_i < 1\} \subseteq \Theta$ has positive measure for some $i$. 
+Each buyer has a budget $B_i > 0$ and all items have unit supply, i.e., $x$ is supply-feasible if $\sum_i x_i \leq \ones$ 
+\yuan{(most of the theory can be easily generalized to the case of a non-uniform supply $s\in L^\infty(\Theta)_+$ s.t. $s(\Theta)=1$).} Without loss of generality, we also assume that $v_i(\Theta) = \|v_i \| > 0$ for all $i$ (otherwise buyer $i$ can be removed).
+Note that the market is ``linear'' means the utility each buyer $i$ receives from an allocation $x_i$ is a linear functional $ x_i \mapsto \langle v_i, x_i \rangle$. The valuation $v_i$ itself, as an $L^1$ function on the item space $\Theta$, may not be a linear function in $\theta\in \Theta$.
+% Let valuations and allocations $\cV, \cX \subseteq \cM$ be Banach spaces. Unless otherwise stated, we assume $\cV = L^1(\Theta)$ and $\cX = L^\infty(\Theta)$. 
+\begin{example}[Valuations and allocations] 
+	\normalfont
+	Let there be $n=2$ buyers and an item space $\Theta = [0,1]$. The buyers' allocations $x_1, x_2\in L^\infty([0,1])_+$ are nonnegative measurable functions on $[0,1]$. 
+	An example of a pure allocation is $x_1 = \ones_{[0,1/2]}$, $x_2 = \ones_{[1/2,1]}$. We can also denote the pure allocation as $\{\Theta_i\}$, where $\Theta_1 = [0,1/2]$, $\Theta_2 = [1/2,1]$. 
+	Here, $\Theta_i$ are measurable and a.e.-disjoint. 
+	An example of a mixed allocation is $x_1(\theta) = 0.5 + 0.1 \theta^2$ and $x_2(\theta) = 0.5 - 0.1 \theta^2$, $\theta\in [0,1]$. In both cases, we have $x_1 + x_2 = \ones$ a.e. (with both sides viewed as nonnegative measurable functions on $[0,1]$). Let buyer $1$'s valuation be $v_1(\theta) = \theta^2$. For the allocation $x_1 = \ones_{[0,1/2]}$, the utility buyer $1$ receives is $\langle v_1, x_1 \rangle = v_1([0,1/2]) = \int_0^1 v_1(\theta)\ones_{[0,1/2]}(\theta)d\theta = \int_0^{1/2} \theta^2 d\theta = \frac{1}{24} $; for the allocation $x_1(\theta) = 0.5 + 0.1\theta^2$, the utility is $\langle v_1, x_1 \rangle = \int_0^1 v_1(\theta)x_1(\theta) d\theta = \int_0^1 \theta^2 (0.5+0.1\theta) d\theta = \frac{23}{120}$. Note that $v_1$ denotes both the $L^1$ function $\theta\mapsto\theta^2$ and the induced measure $A\mapsto \int_A \theta^2 d\theta$.
+	\label{ex:pure-mixed-allo}
+\end{example}
+
+Given prices $p\in L^1(\Theta)_+$, the \emph{demand set} of buyer $i$ is the set of utility-maximizing allocations subject to its budget constraint
+$D_i(p) = \argmax \left\{ \langle v_i, x_i\rangle: x\in L^\infty(\Theta)_+,\, \langle p, x_i\rangle \leq B_i \right\}$.
+Generalizing its finite-dimensional counterpart \citep{nisan2007algorithmic}, 
+% \citep{eisenberg1959consensus,eisenberg1961aggregation,jain2007eisenberg,jain2010eisenberg,nisan2007algorithmic} 
+a \textit{market equilibrium} is defined as a pair $(x^*, p^*) \in (L^\infty(\Theta)_+)^n \times L^1(\Theta)_+ $ satisfying the following: (i) for every $i\in [n]$, $x^*_i \in D_i(p^*)$ (buyer optimality) and (ii) $\sum_i x^*_i \leq \ones$ and $\langle p^*, \ones - \sum_i x^*_i\rangle = 0$ (Market clearance up to no-value items).
+We say that $x^*\in (L^\infty(\Theta)_+)^n$ is an equilibrium allocation if $(x^*, p^*)$ is a ME for some $p^*\in L^1(\Theta)_+$. A pair $(x^*, p^*)$ is called a pure ME if it is a ME and $x^*$ is a pure allocation.
+From the definition of market equilibrium, we assume 
+the following normalizations w.l.o.g.: $v_i(\Theta) = \|v_i\| = 1$ for all $i$, $\|B\|_1 = \sum_i B_i = 1$ and the total supply of all items is $\mu(\Theta) = 1$.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main1"
+%%% End:

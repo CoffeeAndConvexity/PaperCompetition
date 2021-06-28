@@ -1,0 +1,178 @@
+% \section{Introduction}
+% Market equilibrium (ME) is a classical concept from economics, where the goal is to find an allocation of a set of items to a set of buyers, as well as corresponding prices, such that the market clears. 
+% One of the simplest equilibrium models is the (finite-dimensional) linear \emph{Fisher market}. A Fisher market consists of a set of $n$ buyers and $m$ divisible items, where the utility for a buyer is linear in their allocation.
+% % The concept of a market equilibrium (ME) in a (finite-dimensional) linear Fisher market has been studied extensively
+% % has been defined under a (finite-dimensional) linear Fisher market consists of $n$ buyers and $m$ items 
+% Each buyer $i$ has a budget $B_i$ and valuation $v_{ij}$ for each item $j$. A ME consists of an allocation (of items to buyers) and prices (of items) such that (i) each buyer receives a bundle of items that maximizes their utility subject to their budget constraint, and (ii) the market clears (all items such that $p_j>0$ are exactly allocated).
+% In spite of its simplicity, this model has several applications. For example, the most well-known application is in the \emph{competitive equilibrium from equal incomes} (CEEI), where  $m$ items are to be fairly divided among $n$ agents. By giving each agent one unit of faux currency, the allocation from the resulting ME can be used as a fair division. This approach guarantees several fairness desiderata, such as envy-freeness and proportionality. Beyond fair division, linear Fisher markets also find applications in large-scale ad markets \citep{conitzer2018multiplicative,conitzer2019pacing} and fair recommender systems \citep{kroer2019computing,kroer2019scalable}.
+
+% For the case of finite-dimensional linear Fisher markets, the Eisenberg-Gale convex program computes a market equilibrium \citep{eisenberg1959consensus,eisenberg1961aggregation,jain2010eisenberg,nisan2007algorithmic,cole2017convex}.
+% However, in settings like Internet ad markets and fair recommender systems, the number of items is often huge~\citep{kroer2019computing,kroer2019scalable}, if not infinite or even uncountable~\citep{balseiro2015repeated}. For example, each item can be characterized by a set of features.
+% In that case, a natural model for an extremely-large market, such as Internet ad auctions or recommender systems, is to assume that the items are drawn from some underlying distribution over a compact set of possible features.
+% Motivated by such settings where the item space is most easily modeled as a continuum, we study Fisher markets and ME for a continuum of items.
+
+% %[More motivation? Infinitely many items related to ad allocation and recommender system; First-price pacing equilibrium (ad auction); market abstraction (fair recommender system); mention continuous models for ad allocation (approximating a huge number of items, )]
+
+% A problem closely related to our infinite-dimensional Fisher-market setting is the \textit{cake-cutting} or \textit{fair division} problem. There, the goal is to efficiently partition a ``cake'' -- often modeled as a compact measurable space, or simply the unit interval $[0,1]$ -- among $n$ agents so that certain fairness and efficiency properties are satisfied \citep{weller1985fair,brams1996fair,cohler2011optimal,procaccia2013cake,cohler2011optimal,brams2012maxsum,chen2013truth,aziz2014cake,aziz2016discrete,legut2017optimal,legut2020obtain}. See \citep{procaccia2014cake} for a survey for the various problem setups, algorithms and complexity results. \citet{weller1985fair} shows the existence of a fair allocation, that is, a measurable division of a measurable space satisfying weak Pareto optimality and envy freeness. As will be seen shortly, when all buyers have the same budget, our definition of a \textit{pure} ME, i.e., where the allocation consist of indicator functions of a.e.-disjoint measurable sets, is in fact equivalent to this notion of fair division, that is, a Pareto optimal, envy-free division (also see, e.g., \citep{cohler2011optimal,chen2013truth}). 
+% Additionally, we also give an explicit characterization of the unique equilibrium prices based on a pure equilibrium allocation under arbitrary budgets. 
+% This generalizes the result of \citet{weller1985fair}, which only holds for uniform budgets.
+
+% \yuan{Under piecewise \emph{constant} valuations over the $[0,1]$ interval, the equivalence of fair division and market equilibrium in certain setups has been discovered and utilized in the design of cake-cutting algorithms \citep{brams2012maxsum,aziz2014cake}. For example, \citet{aziz2014cake} shows that the special case with piecewise constant valuations can be (easily) reduced to a finite-dimensional Fisher market and hence captured by the classical Eisenberg-Gale framework. Our infinite-dimensional convex optimization characterization extends this connection from piecewise constant valuations to arbitrary valuations in the $L^1$ function space: we propose Eisenberg-Gale-type convex programs that characterize \textit{all} ME, which include pure ME that, under uniform budgets, correspond to fair divisions.}
+
+% \yuan{The more general case with piecewise liner valuations has been considered, although with different fairness and efficiency objectives, and is deemed challenging \citep[\S 4]{cohler2011optimal}. Different from the piecewise constant case, here, one cannot cut the unit interval \emph{a priori} based on breakpoints of the pieces of buyers' valuations. Instead, as we will see, the correct such ``cuts'' inevitably depend on the equilibrium utility prices (price per unit utility) of each buyer.
+% As a concrete application of our framework, we show that we can efficiently compute equilibrium quantities via convex conic optimization under piecewise linear valuations. 
+% To this end, in addition to the convex optimization characterization, another key result is that, given linear buyer valuations over a closed interval, the set of possible utilities spanned by all possible allocations of the item space can be described by a small number of linear and quadratic constraints. This result may be generalized to other classes of buyer valuations and thus be of independent interest.}
+% % the special case with piecewise \emph{constant} valuations can be reduced to a finite-dimensional Fisher market and hance captured by the classical Eisenberg-Gale framework \cite{aziz2014cake}. The case with 
+% %A recent related work is that of \citet{legut2017optimal}, which proposes optimization formulations for ``optimal'' fair division under linear utilities. This work considers optimality and fairness notions that are different from the more commonly used one we adopt.   Furthermore, the optimization formulation is non-convex, and thus does not lead to efficient computability, or even guarantee existence. 
+% %Their formulation also does not lead to a market equilibrium.
+% %\ck{Alternative stuff it would be good to say here. Please check if these are all true and then incorporate above:
+% %  Furthermore, the optimization formulation is non-convex, and thus does not lead to efficient computability, or even guarantee existence. 
+% %  Their formulation also does not lead to market equilibrium properties.
+% %}
+
+% % \yuan{More concrete: there, \cite{aziz2014cake} reduces the problem into finite-dim Fisher market; that does not help here for the p.w.l. case. Also cite cake-cutting papers mentioning hardness of p.w.l. valuations \cite{procaccia2014cake}}
+
+% \subsection{Summary of contributions}
+% \paragraph{Infinite-dimensional Fisher markets and equilibria.} First, we propose the notion of a market equilibrium (ME) for an infinite-dimensional Fisher market with $n$ buyers and a continuum of items $\Theta$. 
+% Here, buyers' valuations are nonnegative $L^1$ functions on $\Theta$. Buyers' allocations are nonnegative $L^\infty$ functions on $\Theta$. 
+% A special case is \emph{pure} allocations, where buyers get a.e.-disjoint measurable sets of items. 
+% % We sometimes restrict ourselves to \emph{pure} allocations
+
+% \paragraph{Market equilibrium and convex optimization duality.}
+% We then give two infinite-dimensional convex programs over Banach spaces of measurable functions on $\Theta$, \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, generalizing the EG convex program and its dual for finite-dimensional Fisher markets. 
+% For the new convex programs, we first establish existence of optimal solutions (Parts \ref{item:eg-primal-attain} and \ref{item:eg-dual-p-beta-attain} of Theorem \ref{thm:eg-equi-opt-combined}). 
+% Due to the lack of a compatible constraint qualification, general duality theory does not apply to these convex programs. 
+% Instead, we establish various duality properties directly through nonstandard arguments (Lemma \ref{lemma:weak-duality} and Theorem \ref{thm:eg-pure-solution-gives-strong-duality}).
+% Based on these duality properties and the existence of a minimizer in the ``primal'' convex program \eqref{eq:eg-primal}, we show that a pair of allocations and prices is a ME \textit{if and only if} they are optimal solutions to the convex programs (Part \ref{item:eg-equi-iff-opt} of Theorem \ref{thm:eg-equi-opt-combined} and Theorem \ref{thm:eg-gives-me}). Furthermore, since \eqref{eq:eg-primal} exhibits a \emph{pure} optimal solution, i.e., buyers get disjoint subsets of items (Part \ref{item:eg-primal-attain} of Theorem \ref{thm:eg-equi-opt-combined}), we conclude that there exists a pure equilibrium allocation, i.e., a \textit{division} (module zero-value items) of the item space.
+
+% \paragraph{Properties of a market equilibrium.} 
+% Based on the above results, we further show that a ME under the infinite-dimensional Fisher market satisfies (budget-weighted) proportionality, Pareto optimality and envy-freeness. Our results on the existence of ME and its fairness properties can be viewed as generalizations of those in \citep{weller1985fair}, in which every buyer (agent) has the same budget. 
+
+% All of the above results, except the existence of a pure equilibrium allocation, hold when the item space $\Theta$ is discrete (finite or countably infinite).
+
+% \paragraph{Tractable reformulation under piecewise linear valuations.} 
+% When the item space is a closed interval (e.g., $[0,1]$) and buyers have piecewise linear utilities, we show that equilibrium allocations can be computed efficiently via solving a convex conic reformulation of the infinite-dimensional Eisenberg-Gale-type convex program \eqref{eq:ql-eg-primal}.
+% This gives an efficient algorithm for computing a fair division under piecewise linear valuations, the first polynomial-time algorithm for this challenging problem to the best of our knowledge.
+% The key in the reformulation is to show that, for linear valuations on a closed interval, we can characterize the set of feasible utilities that can be attained by all feasible allocations by a small number of linear and quadratic constraints with a few auxiliary variables.
+
+% \paragraph{Stochastic optimization for general valuations.}
+% Finally, for more general buyer valuations or a huge number of buyers, we propose solving the finite-dimensional convex program \eqref{eq:eg-dual-beta-1} for equilibrium utility prices using the stochastic dual averaging algorithm (SDA) and establish its convergence guarantees (Theorem \ref{thm:sda-conv}).
+
+
+\section{Introduction}
+Market equilibrium (ME) is a classical concept from economics, where the goal is to find an allocation of a set of items to a set of buyers, as well as corresponding prices, such that the market clears. 
+One of the simplest equilibrium models is the (finite-dimensional) linear \emph{Fisher market}. A Fisher market consists of a set of $n$ buyers and $m$ divisible items, where the utility for a buyer is linear in their allocation.
+% The concept of a market equilibrium (ME) in a (finite-dimensional) linear Fisher market has been studied extensively
+% has been defined under a (finite-dimensional) linear Fisher market consists of $n$ buyers and $m$ items 
+Each buyer $i$ has a budget $B_i$ and valuation $v_{ij}$ for each item $j$. A ME consists of an allocation (of items to buyers) and prices (of items) such that (i) each buyer receives a bundle of items that maximizes their utility subject to their budget constraint, and (ii) the market clears (all items such that $p_j>0$ are exactly allocated).
+In spite of its simplicity, this model has several applications. Perhaps one of the most celebrated examples is the \emph{competitive equilibrium from equal incomes} (CEEI), where  $m$ items are to be fairly divided among $n$ agents. By giving each agent one unit of faux currency, the allocation from the resulting ME can be used as a fair division. This approach guarantees several fairness desiderata, such as envy-freeness and proportionality. Beyond fair division, linear Fisher markets also find applications in large-scale ad markets \citep{conitzer2018multiplicative,conitzer2019pacing} and fair recommender systems \citep{kroer2019computing,kroer2019scalable}.
+
+For the case of finite-dimensional linear Fisher markets, the Eisenberg-Gale convex program computes a market equilibrium \citep{eisenberg1959consensus,eisenberg1961aggregation}.
+However, in settings like Internet ad markets and fair recommender systems, the number of items is often huge~\citep{kroer2019computing,kroer2019scalable}, if not infinite or even uncountable~\citep{balseiro2015repeated}. For example, each item can be characterized by a set of features.
+In that case, a natural model for an extremely large market, such as Internet ad auctions or recommender systems, is to assume that the items are drawn from some underlying distribution over a compact set of possible feature vectors.
+
+Motivated by settings such as the above, where the item space is most easily modeled as a continuum, we study Fisher markets and its equilibria for a continuum of items.
+% \ck{
+    While equilibrium computation for finite-dimensional linear Fisher markets is well understood, nothing is known about computation of its infinite-dimensional analogue. We rectify this issue by developing infinite-dimensional convex programs over Banach spaces that generalize the Eisenberg-Gale convex program and its dual. We show that these convex programs lead to market equilibria, and give scalable first-order methods for solving the convex programs.
+    % }
+
+%[More motivation? Infinitely many items related to ad allocation and recommender system; First-price pacing equilibrium (ad auction); market abstraction (fair recommender system); mention continuous models for ad allocation (approximating a huge number of items, )]
+
+A problem closely related to our infinite-dimensional Fisher-market setting is the \textit{cake-cutting} or \textit{fair division} problem. 
+There, the goal is to efficiently partition a ``cake''---often modeled as a compact measurable space, or simply the unit interval $[0,1]$---among $n$ agents so that certain fairness and efficiency properties are satisfied \citep{weller1985fair,brams1996fair,cohler2011optimal,procaccia2013cake,cohler2011optimal,brams2012maxsum,chen2013truth,aziz2014cake,aziz2016discrete,deng2012algorithmic}.
+% \ck{
+Focusing on the case of finding a division of a measurable space satisfying weak Pareto optimality and envy freeness, \citet{weller1985fair} shows the existence of a fair division.
+When all buyers have the same budget, our definition of a \textit{pure} ME, i.e., where the allocation consist of indicator functions of a.e.-disjoint measurable sets, is equivalent to this notion of fair division.
+% (see also \citet{cohler2011optimal,chen2013truth}). 
+Thus, our convex programs yield solutions to the fair division setting of \citet{weller1985fair}.
+% }
+Additionally, we also give an explicit characterization of the unique equilibrium prices based on a pure equilibrium allocation under arbitrary budgets. 
+This generalizes the result of \citet{weller1985fair}, which only holds for uniform budgets.
+% See \citep{procaccia2014cake} for a survey of various other problem setups and algorithms. 
+
+Under piecewise \emph{constant} valuations over the $[0,1]$ interval, the equivalence of fair division and market equilibrium in certain setups has been discovered and utilized in the design of cake-cutting algorithms \citep{brams2012maxsum,aziz2014cake}. 
+For example, \citet{aziz2014cake} show that the special case with piecewise constant valuations can be (easily) reduced to a finite-dimensional Fisher market and hence captured by the classical Eisenberg-Gale framework. 
+Our infinite-dimensional convex optimization characterization extends this connection from piecewise constant valuations to arbitrary valuations in the $L^1$ function space: we propose Eisenberg-Gale-type convex programs that characterize \textit{all} ME. This includes pure ME which, under uniform budgets, correspond to fair divisions. 
+
+% \ck{
+Beyond piecewise constant valuations, piecewise linear valuations have also been considered in fair division, although with different fairness and efficiency objectives. This setting is considerably more challenging, and e.g. \citet[\S 4]{cohler2011optimal} focus on the case of two agents. Unlike the piecewise constant case, one cannot cut the unit interval \emph{a priori} based on breakpoints of the pieces of buyers' valuations. Instead, as we will see, the correct such ``cuts'' inevitably depend on the equilibrium utility prices (price per unit utility) of each buyer.
+Nonetheless, we will show that in the piecewise linear case, it is possible to reformulate our general convex program as a finite-dimensional convex conic program involving second-order cones and exponential cones. 
+We leverage this reformulation to give a polynomial-time procedure for computing a fair division for piecewise linear utilities in complete generality, for any number of agents.
+In addition to being polynomial-time computable in theory, our conic reformulation is also highly efficient numerically: it can be written as a sparse conic program that can be solved with standard convex optimization software.
+% As a concrete application of our framework, we show that we can efficiently compute equilibrium quantities via convex conic optimization under piecewise linear valuations. 
+A key part of our finite-dimensional conic reformulation is to show that, given linear buyer valuations over a closed interval, the set of utilities attainable by feasible allocations of the item space can be described by a small number of linear and quadratic constraints. This result may be generalized to other classes of buyer valuations and may thus be of independent interest.
+% }
+
+% \paragraph{Other related work.} 
+% \yuan{Cite Cheung \& Cole on dynamics. Cite Garg \& Bichler on different utilities. \texttt{https://dl.acm.org/doi/pdf/10.1145/3340234}} 
+
+% the special case with piecewise \emph{constant} valuations can be reduced to a finite-dimensional Fisher market and hence captured by the classical Eisenberg-Gale framework \cite{aziz2014cake}. The case with 
+%A recent related work is that of \citet{legut2017optimal}, which proposes optimization formulations for ``optimal'' fair division under linear utilities. This work considers optimality and fairness notions that are different from the more commonly used one we adopt.   Furthermore, the optimization formulation is non-convex, and thus does not lead to efficient computability, or even guarantee existence. 
+%Their formulation also does not lead to a market equilibrium.
+%\ck{Alternative stuff it would be good to say here. Please check if these are all true and then incorporate above:
+%  Furthermore, the optimization formulation is non-convex, and thus does not lead to efficient computability, or even guarantee existence. 
+%  Their formulation also does not lead to market equilibrium properties.
+%}
+
+% \yuan{More concrete: there, \cite{aziz2014cake} reduces the problem into finite-dim Fisher market; that does not help here for the p.w.l. case. Also cite cake-cutting papers mentioning hardness of p.w.l. valuations \cite{procaccia2014cake}}
+
+\subsection{Summary of contributions}
+\paragraph{Infinite-dimensional Fisher markets and equilibria.} First, we propose the notion of a market equilibrium (ME) for an infinite-dimensional Fisher market with $n$ buyers and a continuum of items $\Theta\subseteq \RR^d$ (the case of $\Theta$ being a general finite measure space will be discussed at the end of \S \ref{sec:equi-and-dual}).
+Here, buyers' valuations and allocations are nonnegative $L^1$ and $L^\infty$ functions on $\Theta$, respectively. 
+A special case is \emph{pure} allocations, where buyers get a.e.-disjoint measurable sets of items. 
+% We sometimes restrict ourselves to \emph{pure} allocations
+
+\paragraph{Market equilibrium and convex optimization duality.}
+We then give two infinite-dimensional convex programs over Banach spaces of measurable functions on $\Theta$, which generalize the EG convex program and its dual for finite-dimensional Fisher markets, and establish the existence of optimal solutions.
+% (Parts \ref{item:eg-primal-attain} and \ref{item:eg-dual-p-beta-attain} of Theorem \ref{thm:eg-equi-opt-combined}). 
+Due to the lack of a compatible constraint qualification, general duality theory does not apply to these convex programs. 
+Instead, we establish various duality properties directly through nonstandard arguments. %(Lemma \ref{lemma:weak-duality} and Theorem \ref{thm:eg-pure-solution-gives-strong-duality}).
+Based on these duality properties and the existence of a minimizer in the ``primal'' convex program, we show that a pair of allocations and prices is a ME \textit{if and only if} they are optimal solutions to the convex programs.
+% (Part \ref{item:eg-equi-iff-opt} of Theorem \ref{thm:eg-equi-opt-combined} and Theorem \ref{thm:eg-gives-me}). 
+Furthermore, we show that the primal convex program admits a \emph{pure} optimal solution, meaning that buyers get disjoint subsets of items.
+% (Part \ref{item:eg-primal-attain} of Theorem \ref{thm:eg-equi-opt-combined}), 
+and we conclude that there exists a pure equilibrium allocation, i.e., a \textit{division} (modulo zero-value items) of the item space.
+
+\paragraph{Properties of a market equilibrium.} 
+Based on the above results, we further show that a ME under the infinite-dimensional Fisher market satisfies (budget-weighted) proportionality, Pareto optimality and budget-weighted envy-freeness. Our results on the existence of ME and its fairness properties can be viewed as generalizations of those in \citet{weller1985fair}, in which every buyer (agent) has the same budget.
+
+\paragraph{Tractable reformulation under piecewise linear valuations.} 
+When the item space is a closed interval (e.g., $[0,1]$) and buyers have piecewise linear valuations, we show that equilibrium allocations can be computed efficiently via solving a convex conic reformulation of the infinite-dimensional Eisenberg-Gale-type convex program. %\eqref{eq:ql-eg-primal}.
+This gives an efficient algorithm for computing a fair division under piecewise linear valuations, the first polynomial-time algorithm for this challenging problem to the best of our knowledge.
+The key in the reformulation is to show that, for linear valuations on a closed interval, the set of feasible utilities spanned by all feasible allocations can be described by a small number of linear and quadratic constraints with a few auxiliary variables.
+
+\paragraph{Stochastic optimization and quasilinear extensions.} 
+We briefly discuss how more general valuations can be handled via stochastic optimization and how the existence and characterization results extend to the case of quasilinear utilities.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \paragraph{Stochastic optimization for general valuations.}
+% For more general buyer valuations or a huge number of buyers, we propose solving a finite-dimensional convex reformulation of the dual of the infinite-dimensional EG for equilibrium utility prices using the stochastic dual averaging algorithm (SDA) and establish its convergence guarantees.% (Theorem \ref{thm:sda-conv}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \paragraph{Extension to quasilinear utilities.} 
+% Most of the above results easily extend to the setting where each buyer has a quasilinear utility. 
+% Specifically, we show that, in this case, a different pair of infinite-dimensional convex programs exhibit optimal solutions that correspond to quasilinear market equilibria. 
+% The convex conic reformulation can also be modified easily to capture pure quasilinear equilibrium allocations under piecewise linear valuations. 
+% Finally, SDA can also be easily modified to compute equilibrium utility prices in the quasilinear setting.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Related work}
+% In addition to the aforementioned works, we briefly review other recent works on market equilibrium computation and fair division.
+% \paragraph{Market equilibrium computation.} 
+% For the classical Fisher market setting with finitely many items, there is a large literature on equilibrium computation algorithms, some based on solving new equilibrium-capturing convex programs. For example, 
+% \citet{devanur2008market} established the first polynomial-time algorithm for exact equilibrium computation for a finite-dimensional linear Fisher market, based on a primal-dual algorithm for solving the Eisenberg-Gale convex program. 
+% \citet{zhang2011proportional} proposed a distributed dynamics that converges to an equilibrium, which, as later analyzed in \citet{birnbaum2011distributed}, is in fact a first-order optimization algorithm applied to a specific convex program due to \citet{shmyrev2009algorithm}.
+% \citet{cheung2019tatonnement} studied t\^{a}tonnement dynamics and show its equivalence to gradient descent on Eisenberg-Gale-type convex programs under the more general class of CES utilities. \citet{gao2020first} studied first-order methods based on (old and new) convex programs for Fisher market equilibria under commonly used utilities. \citet{bei2019earning} studied earning and utility limits in markets with linear and spending-constraint utilities, and proposed a polynomial-time algorithm for computing an equilibrium. 
+% %Pivoting algorithms of combinatorial nature have also been studied, for the more general Arrow–Debreu exchange market and piecewise linear separable concave utilities \citep{garg2013towards,garg2015complementary}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \paragraph{Fair division.}
+% As stated previously, a Fisher market equilibrium on finitely many divisible items is known to be a strong fair division approach. 
+% There is also a literature on fair division of \emph{indivisible} items via maximizing the Nash social welfare (NSW); the discrete analogue of the Eisenberg-Gale program.
+% This was started by \citet{caragiannis2016unreasonable}, who showed that the maximum NSW solution provides fairness guarantees in the indivisible divisible case as well, and proposed a practical algorithm based on mixed-integer linear programming.
+% There are also several works on approximation algorithms for this settings, see e.g. \citet{garg2018approximating,barman2018finding}.
+% Interestingly, we will show that our continuum setting allows us to construct allocations via convex programming, even for the indivisible setting.

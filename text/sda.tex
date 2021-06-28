@@ -1,0 +1,182 @@
+
+%\section{Efficient optimization of \eqref{eq:eg-dual-beta-1}} \label{sec:opt-of-dual}
+
+\section{Stochastic optimization for general item spaces and valuations}\label{sec:sda}
+%In the rest of the paper, unless otherwise stated, we always use $x^*$ or  $\{\Theta_i\}$ to denote a pure equilibrium allocation. We also use $\beta^*$ to denote the unique optimal solution of \eqref{eq:eg-dual-beta-1} and $p^*$ the a.e. uniuqe equilibrium prices, which satisfy $p^* = \max_i \beta^*_i v_i$ and \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual} together with $x^*$ (Lemma \ref{lemma:weak-duality} and Theorem \ref{thm:eg-gives-me}).
+%The convex program \eqref{eq:eg-dual-beta-1} is finite-dimensional and has a real-valued, convex and continuous objective function (Lemma \ref{lemma:beta-dual-attain}). By Lemma \ref{lemma:equi-bounds}, we can also add the constraint $\beta\in [\ubar{\beta}, \bar{\beta}]$ without affecting the optimal solution. This makes the ``dual'' \eqref{eq:eg-dual-beta-1} more computationally tractable than its ``primal'' \eqref{eq:eg-primal}. % yuan: strong convexity is not necessary nor helpful in ellipsoid method
+%
+%\paragraph{Ellipsoid method for piecewise linear $v_i$.} We show that, for piecewise linear (p.w.l.) $v_i$ over $\Theta = [0,1]$, we can compute a solution $\tilde{\beta}$ such that $\|\tilde{\beta} - \beta^* \| \leq \epsilon$ in time polynomial in $\log \frac{1}{\epsilon}$, $n$ and $K=\sum_i K_i$. This is achieved via solving \eqref{eq:eg-dual-beta-1} using the ellipsoid method. Consider the following generic convex program \cite[\S 4.1.4]{ben2019lectures}:
+%\begin{align}
+%	f^*:= \min_x f(x) \ \st x\in X \label{eq:generic-constrained-minimization}
+%\end{align}
+%where $f$ is convex and continuous (and hence subdifferentiable) on a convex compact $X\subseteq \RR^n$.
+%Assume we have access to the following oracles:
+%\begin{itemize}
+%	\item The \textit{separation} oracle $\mathcal{S}$: given any $x\in \RR^n$, either report $x\in \interior X$ or return a $g\neq 0$ (representing a separating hyperplane) such that $\langle g, x\rangle \geq \langle g, y\rangle$ for any $y\in X$. 
+%	\item The \textit{first-order} or \textit{subgradient} oracle $\mathcal{G}$: given $x\in \interior X$ (the interior of $X$), return a subgradient $f'(x)$ of $f$ at $x$, that is, $f(y) \geq f(x) + \langle f'(x), y-x\rangle$ for any $y$.
+%\end{itemize} 
+%The time complexity of the ellipsoid method is as follows.
+%\begin{theorem} \cite[Theorem 4.1.2]{ben2019lectures}
+%	Let $V = \max_{x\in X} f(x) - f^*$, $R = \sup_{x\in X} \|x\|$, and $r>0$ be the radius of a Euclidean ball contained in $X$.
+%	For any $\epsilon>0$, it is possible to find an $\epsilon$-solution $x_\epsilon$ (i.e., $f(x_\epsilon) \leq f^* + \epsilon$) with no more than $N(\epsilon)$ calls to $\mathcal{S}$ and $\mathcal{G}$, followed by no more than $O(1)n^2 N(\epsilon)$ arithmetic operations to process the answer of the oracles, where 
+%	$N(\epsilon) = O(1) n^2 \log \left( 2+ \frac{V R}{\epsilon r} \right)$.
+%	\label{thm:4.1.2-ellipsoid-bn-notes}
+%\end{theorem}
+%%\ck{If we need space, we could condense the above to just state what is needed specifically for our problem without specifying (\ref{eq:generic-constrained-minimization}). We could then give this detailed explanation in appendix.}
+%In order to make use of the ellipsoid method for \eqref{eq:eg-dual-beta-p} for p.w.l. $v_i$, we need to derive efficient oracles $\mathcal{S}$ and $\mathcal{G}$. To this end, we need some elementary lemmas regarding p.w.l. linear functions.
+%\begin{lemma}
+%	For any $\beta\in \RR_+^n$, the function $\theta \mapsto \max_i \beta_i v_i(\theta)$ is piecewise linear with at most $n(K-n+1)$ pieces. \label{lemma:nK-pieces}
+%\end{lemma}
+%
+%\begin{lemma}
+%	Suppose $f_i(\theta) = c_i \theta + d_i \geq 0$, for all $\theta\in [l,u]\subseteq [0,1]$, $i\in [n]$. Then, $h_n(\theta) =  \max_i f_i(\theta)$ is piecewise linear on $[l,u]$ with at most $n$ pieces. Furthermore, the breakpoints of $h_n$, $l = a_0 < a_1 < \dots < a_{n'} = u$ ($n'\leq n$) can be found in $O(n^2)$ time.  \label{lemma:max-of-n-linear}
+%\end{lemma}
+%Assume that each $v_i$ is $K_i$-piecewise linear (possibly discontinuous). There are in total $K = \sum_i K_i$ pieces.
+%Denote $\phi(\beta) = \langle \max_i \beta_i v_i, \ones \rangle$. From the proof of Lemma \ref{lemma:beta-dual-attain}, we know that $\phi$ is finite, convex and continuous on $\RR_+^n$. Hence, it is subdifferentiable on $\RR^n_{++}$ \cite[Proposition C.6.5]{ben2019lectures}. 
+%First, we show that, if all $v_i$ are linear on a common interval and zero otherwise, a subgradient of $\phi(\beta)$ can be constructed in $O(n^2)$ time. 
+Here, we consider the case of general valuations $v_i$ on a convex compact set $\Theta\subseteq \RR^d$ and show that we can use stochastic first-order methods to find approximate equilibrium utility prices. 
+
+\paragraph{Efficient subgradient computation.} %$ \beta\mapsto \langle \max_i \beta_i v_i, \ones \rangle$.}
+Our method will rely on oracle access to stochastic subgradients of $\phi(\beta) = \langle \max_i \beta_i v_i, \ones \rangle$, the first term in the objective of \eqref{eq:eg-dual-beta-1}.
+From the proof of Lemma \ref{lemma:beta-dual-attain}, we know that the function $\phi$ is finite, convex and continuous on $\RR_+^n$. 
+Hence, it is subdifferentiable on $\RR^n_{++}$ \cite[Proposition C.6.5]{ben2019lectures}. 
+% In order to utilize this , we utilize the additivity (in terms of integration or expectation) property of subgradients, as formalized in the following lemma.
+The next lemma shows that  $\phi$ can be viewed as the expectation of a stochastic function, and that an unbiased stochastic subgradient of $\phi$ can easily be computed. 
+\begin{lemma}
+	Let $\phi(\beta, \theta) = \max_i \beta_i v_i(\theta)$. For any $\theta\in \Theta \subseteq \RR^d$, a subgradient of $\phi(\cdot, \theta)$ at $\beta$ is $ g(\beta, \theta) = v_{i^*}(\theta) \mathbf{e}^{(i^*)}$, where $i^* \in \argmax_i \beta_i v_i(\theta)$ (taking the smallest index if there is a tie). Hence, a subgradient of $\phi$ at $\beta$ is $\phi'(\beta) = \int_{\Theta} g(\beta, \theta) d\theta = \mu(\Theta) \cdot \EE_\theta g(\beta, \theta) \in \partial \phi(\beta)$, where the expectation is taken over the uniform distribution $\theta\sim {\rm Unif}(\Theta)$.  
+	\label{lemma:subgrad-w.r.t.-beta-fixed-theta}
+\end{lemma}
+Using Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta}, we can solve \eqref{eq:eg-dual-beta-1} using a stochastic first-order method that only requires oracle access to stochastic subgradients.
+%
+%%Piecewise linear on$[0,1]$. 
+%%Linear (low-rank) in $\RR^d_+$: $v_i(\theta) = \alpha_i^\top \theta$, $\forall\theta\in \Theta \subseteq \RR^d$, $d\ll n$.
+%%Feature-based $v_i(\theta) = \frac{1}{1 + e^{-\alpha_i^\top \theta}}$. 
+%Using Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta} and the p.w.l. structure of $v_i$, we have the following for computing a subgradient of $\phi$. 
+%\begin{lemma}
+%	For each $i$, assume that $v_i(\theta) = c_i \theta + d_i \geq 0$ on an interval $[l,u]\subseteq [0,1]$. 
+%	\begin{itemize}
+%		\item The function $\theta \mapsto \max_i \beta_i v_i(\theta)$ has at most $n$ linear pieces on $[l,u]$, with breakpoints $l = a_0 < a_1 < \dots < a_{n'} = \dots = a_n = u$, $n'\leq n$ (depending on $\beta$). 
+%		\item We can construct $\phi'(\beta) \in \partial \phi(\beta)$ for any $\beta > 0$ as follows: the $i$th component of $\phi'(\beta)$ is \[\sum_{k\in [n']:\, i^*_k = i} \left( \frac{c_{i^*_k}}{2}(a_k^2 - a_{k-1}^2) + d_{i^*_k}(a_k - a_{k-1}) \right),\] 
+%		where $i^*_k$ is the (unique) winner (with the smallest index among ties) on $[a_{k-1}, a_k]$.
+%		\item The above construction of $\phi'(\beta)$ takes $O(n^2)$ time.
+%	\end{itemize}
+%	\label{lemma:subgrad-of-n-linear-pieces}
+%\end{lemma}
+%When $v_i$ are $K_i$-piecewise linear on $[0,1]$, using Lemma \ref{lemma:subgrad-of-n-linear-pieces}, we can compute a subgradient $\phi'(\beta)$ 
+% by summing up the above construction over the intervals given by the breakpoints of all $v_i$, and there are at most $K$ such intervals.
+%\begin{theorem}
+%	For any $\beta>0$, a subgradient $\phi'(\beta)$ can be computed in $O(n^2 K)$ time. \label{thm:phi'-subgrad-pwl-vi}
+%\end{theorem}
+%Combining the above results, we have the following overall time complexity. Again, we assume that $v_i(\Theta) = 1$ and $\sum_i B_i = 1$ (w.l.o.g.).
+%For general $v_i$ and $B_i$ that do not satisfy this, we can normalize them in $O(nK)$ time.
+%% simply normalize them to $\theta \mapsto v_i(\theta)/v_i(\Theta)$. It takes $O(K)$ time to normalize all of them, since computing each $v_i(\Theta)$ (integration of a piecewise linear function) and dividing its piecewise linear coefficients of $v_i$ by the integral take $O(K_i)$ time.
+%% Normalizing $B$ by $\|B\|_1$ clearly takes $O(n)$ time. 
+%\begin{theorem} 
+%	Let $\Theta = [0,1]$, $v_i(\Theta) = 1$ for all $i$, $\|B\|_1 = 1$ and $\epsilon>0$. A solution $\tilde{\beta}$ such that $\|\tilde{\beta} - \beta^*\| \leq \epsilon$ can be computed in $ O\left( n^4 K \log \frac{n\cdot \max_i B_i}{\epsilon\cdot \min_i B_i} \right)$ time, which is $O\left( n^4 K \log \frac{n}{\epsilon} \right)$ when $B_i = 1/n$ for all $i$. \label{thm:ellipsoid-EG-dual-complexity}
+%\end{theorem}
+%
+%The ellipsoid method can be applied to \eqref{eq:eg-dual-beta-1} more generally than for the case of p.w.l. $v_i$. It finds a solution $\beta$ that is $\epsilon$-close to $\beta^*$ in time $\log \frac{1}{\epsilon}$ as long as we can compute $\phi'(\beta)$ efficiently. By Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta}. since a ``pointwise'' subgradient $g(\beta,\theta)$ of $f(\beta, \theta)$ is much easier to compute, we can compute a ``full'' subgradient $\phi'(\beta)$ efficiently as long as the integral (expectation) can be evaluated efficiently.
+%
+%\paragraph{Projected subgradient descent} For general $\Theta\subseteq \RR^n$, assume $v_i$ still enables efficient computation of $\phi'(\beta)$ for any $\beta>0$. Then, a simple algorithm is the projected subgradient descent (PSGD) (see, e.g., \cite{lacoste2012simpler} and \cite[\S 3.4.1]{bubeck2015convex}). Let $\psi$ be the full objective of \eqref{eq:eg-dual-beta-1}. Starting from any $\beta^1 \in (\ubar{\beta}, \bar{\beta})$, an iteration is of the form $\beta^{t+1} =\Pi_{[\ubar{\beta}, \bar{\beta}]} \left( \beta^t - \eta_t g^t \right)$, $t\geq 1$. Here, $\eta_t = \frac{2}{\sigma(t+1)}$, $g^t = \phi'(\beta) - (B_1/\beta_1, \dots, B_n/\beta_n) \in \partial \psi(\beta^t)$ and $\sigma = \min_i \frac{B_i}{\bar{\beta}_i^2} = \min_i B_i^3$ is the strong convexity modulus of $\psi$ on $[\ubar{\beta}, \bar{\beta}]$ (determined by $-\sum_i B_i \log \beta_i$). 
+%We assume for simplicity that $\mu(\Theta) = 1$, which is w.l.o.g. since it can be ensured via simple affine transformations of $\Theta$ and $v_i$. Also assume that $v_i\leq G < \infty$ a.e. for all $i$. We have the following guarantee regarding PSGD. Here, $w^*$ is the minimum of \eqref{eq:eg-dual-beta-1}.
+%\begin{theorem}
+%	Let $\tilde{\beta}^t = \sum_{\tau =1}^t \frac{2\tau}{t(t+1) \beta^\tau}$ and $L^2 = G^2 + \sum_i B_i^2$. Then, 
+%	$\|\tilde{\beta}^t - \beta^* \| \leq \frac{4 L^2}{\sigma^2 (t+1)}$ for all $t\geq 1$.
+%	 \label{thm:psgd}
+%\end{theorem}
+%\subsection{Proof of Theorem \ref{thm:psgd}}
+%Recall that
+%\[ \psi(\beta) = \langle \max_i \beta_i v_i, \ones \rangle - \sum_i B_i \log \beta_i. \]
+%Therefore, from the term $-\sum_i B_i \log \beta_i$, a strong convexity modulus of $\psi$ on$[\ubar{\beta}, \bar{\beta}]$ is 
+%\[ \sigma = \min_i \frac{B_i}{\bar{\beta}^2_i} = \min_i B_i^3. \]
+%Since $v_i \leq G$ a.e., for any $\beta>0$, the $i$th component of $g(\beta,\theta)$ is $v_{i^*}(\theta) \cdot \ones_{\{i^* = i\}} \leq G$ (c.f. Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta}). Therefore, taking expectation over $\theta\sim {\rm Unif}(\Theta)$ yields
+%\[ 0 \leq \phi'(\beta_i) = \EE_\theta [ v_{i^*}(\theta) \ones_{\{ i^* = i \}} ] \leq G. \]
+%Hence, $\|g^t \|^2 \leq nG^2$
+%
+%
+%With the above constants specifications of $\sigma$ and $L$, the conclusion follows from \cite[Theorem 3.9]{bubeck2015convex}.
+% Even though a full subgradient $\phi'(\beta)$ might difficult to compute, we can still utilize the expectation characterization in Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta} to use a stochastic optimization algorithm to solve \eqref{eq:eg-dual-beta-1}. 
+The structure of this problem is particularly suitable for the \textit{stochastic dual averaging} (SDA) algorithm \citep{xiao2010dual,nesterov2009primal}. 
+It solves problems of the form:
+\begin{align}
+	\min_{\beta} \ \EE_\theta f(\beta, \theta) + \Psi(\beta), \label{eq:sda-reg-std-form}
+\end{align}
+where $\Psi$ is a convex function---often known as a \emph{regularizer} in the context of machine learning---with a closed, nonempty domain ${\rm dom}\, \Psi = \{ \beta: \Psi(\beta) < \infty \}$.
+Now, assume that $\Psi$ is strongly convex, $\theta \sim \mathcal{D}$ is a random variable with distribution $\mathcal{D}$, and $f(\cdot, \theta)$ is convex and subdifferentiable on ${\rm dom}\,\Psi$ for all $\theta\in\Theta$. 
+The algorithm is shown in \cref{alg:sda}.
+\begin{algorithm}
+	Initialize: Choose $\beta^1 \in {\rm dom}\, \Psi$ and $\bar{g}^0 = 0$\\
+	\noindent\it{For} $t=1,2, \dots$:
+	
+		\hspace{10pt} Sample $\theta_t \sim \mathcal{D}$ and compute $g^t \in \partial_\beta f(\beta, \theta_t)$
+		
+		\hspace{10pt} $\bar{g}^t = \frac{t-1}{t}\bar{g}^{t-1} + \frac{1}{t}g^t$
+		
+		\hspace{10pt} $\beta^{t+1} = \argmin_\beta \left\{ \langle \bar{g}^t, \beta \rangle + \Psi(\beta) \right\}$ $\ (*)$
+	\caption{Stochastic dual averaging (SDA)}\label{alg:sda}
+\end{algorithm}
+
+To solve \eqref{eq:eg-dual-beta-1}, we set 
+\[ f(\beta, \theta) = \max_i \beta_i v_i(\theta),\ \mathcal{D} = {\rm Unif}(\Theta),\] 
+where we assume $\mu(\Theta)=1$ w.l.o.g. (otherwise, we can ``shrink'' the item space $\Theta$ by a scalar and consider $\Theta' = \{\alpha\theta: \theta\in \Theta\}$ or multiply the underlying measure $\mu$ by a scalar between $0$ and $1$; valuations $v_i$ are then replaced by $v'_i(\theta') = v_i(\alpha\theta)$).
+
+Then, $\EE_\theta[ \max_i\beta_i v_i(
+\theta)] = \langle \max_i \beta_i v_i, \ones\rangle$. By Lemma \ref{lemma:subgrad-w.r.t.-beta-fixed-theta}, we can choose \[g^t = g(\beta, \theta_t) \in \partial_\beta f(\beta, \theta_t).\]
+Recall the bounds on $\beta^*$ in Lemma \ref{lemma:equi-bounds}: 
+\[ \ubar{\beta}_i = B_i \leq \beta^*_i \leq \bar{\beta}_i = 1. \] 
+Let the regularizer be
+\[ \Psi(\beta) = \begin{cases}
+	-\sum_i B_i \log \beta_i & {\rm if}\ \beta\in [\ubar{\beta}, \bar{\beta}], \\
+	\infty & {\rm o.w.}
+\end{cases} \]
+Clearly, ${\rm dom}\, \Psi = [\ubar{\beta}, \bar{\beta}]$ is closed and nonempty. 
+Given these specifications, in Algorithm \ref{alg:sda}, the step $(*)$ yields a simple, explicit update: at iteration $t$, compute 
+\[\beta^{t+1}_i = 
+\Pi_{[\ubar{\beta}_i, \bar{\beta}_i]}  \left( \frac{B_i}{\bar{g}^t_i} \right),\ i\in [n], \] 
+where $\Pi_{[a,b]}(c) = \min\{ \max\{a, c \}, b  \}$ is the projection onto a closed interval. 
+This can be derived easily from its first-order optimality condition.
+Using the convergence results in \citep{xiao2010dual} for strongly convex $\Psi$, we can show that the uniform average of all $\beta^t$ generated by SDA converges to $\beta^*$ both in mean square error (MSE) and with high probability, under mild additional boundedness assumptions on $v_i$.
+\begin{theorem}
+	Assume $v_i \in L^2(\Theta)$, that is, $\langle v_i^2, \ones\rangle = \EE_\theta[v_i(\theta)^2 ] < \infty$ for all $i$. 
+	Let 
+	\[ G^2 := \EE_\theta [\max_i v_i(\theta)^2]  < \infty, \ \sigma = \min_i B_i.\] 
+	Let $\tilde{\beta}^t := \frac{1}{t} \sum_{\tau = 1}^t \beta^\tau$. 
+	Then,
+	\begin{align*}
+		& \EE \| \beta^t - \beta^* \|^2 \leq \frac{6 + \log t}{t} \times \frac{G^2}{\sigma^2} , \\
+		& \EE \|\tilde{\beta}^t - \beta^* \|^2 \leq \frac{6(1+\log t) + \frac{1}{2}(\log t)^2}{t} \times \frac{G^2}{\sigma^2}.
+	\end{align*}
+	Further assume that $v_i \leq G$ a.e. for all $i$. 
+	Then, for any $\delta>0$, with probability at least $ 1 - 4\delta \log t$, we have \[\|\tilde{\beta}^t - \beta^*\|^2 \leq \frac{2M_t}{\sigma},\]
+	where
+	\begin{align*}
+		& M_t = \frac{\Delta_t}{t} + \frac{4 G}{t}\sqrt{\frac{\Delta_t \log (1/\delta)}{\sigma}} + \max \left\{ \frac{16 G^2}{\sigma}, 6V \right\}\frac{\log (1/\delta)}{t}, \\
+		& \Delta_t = \frac{G^2}{2\sigma} (6 + \log t), \\
+		& V = n + \log \frac{1}{\sigma}.
+	\end{align*}
+	\label{thm:sda-conv}
+\end{theorem}
+It can be seen that the above bounds grow as the strong convexity modulus of the objective function $\sigma = \min_i B_i$ decreases.
+For the CEEI case, $B_i = 1/n$ for all $i$ and $\sigma = \min_i B_i = 1/n$.
+For the general case of heterogeneous buyer budgets, $\sigma \leq 1/n$.
+% Hence, $\kappa=\frac{1}{\sigma}$ (same as in Theorem~\ref{thm:ellipsoid-method-for-u(ik)-convex-program}) can be viewed the ``condition number'' of the problem.
+% In the above theorem, the bounds on $\EE \| \beta^t - \beta^*\|$ and $\EE \|\tilde{\beta}^t - \beta^*\|^2$ is of order $O\left(\frac{(\log t)^2}{t}\right)$, where the constant degrades upon buyer heterogeneity, i.e., a smaller $\min_i B_i$ leads to a larger bound (recall that we assume w.l.o.g. $\|B\|_1 = 1$ and therefore $\min_i B_i \leq \frac{1}{n}$ and $\max_i B_i \leq 1$). 
+% For the second half regarding $\|\tilde{\beta}^t - \beta^*\|^2$, substituting $\delta = \frac{1}{t^\alpha}$ ($\alpha\geq 1$) yields a bound of order $O\left( \frac{\log t}{t} \right)$ (also depending inversely on $\min_i B_i$), with probability at least $1 - \frac{4\log t}{t^\alpha}$. In addition, the added assumptions $\EE_\theta [\max_i v_i^2] < \infty$ and $v_i\leq G$ a.e. for all $i$ are always satisfied as long as they are (a.e.) bounded (e.g., p.w.l. functions).
+
+% \paragraph{Deterministic optimization using $\phi'(\beta)$.} 
+% When the full gradient $\phi'(\beta)$ can be computed, in Algorithm \ref{alg:sda}, we can replace $g^t$ with a full subgradient $\phi'(\beta^t)$. Then, the error norm $\|\beta^t - \beta^*\|^2$ is deterministic (given deterministic initialization and stepsizes) and bounded by the same right hand side as the first half of Theorem \ref{thm:sda-conv}. 
+% Furthermore, if $v_i$ are a.e.-bounded by $G$, then it can be easily verified that
+% \[ \|\phi'(\beta)\|^2 \leq n G^2 < \infty,\ \forall\, \beta\in \RR_+^n .\] 
+% This allows us to use a projected subgradient descent method that achieves $\|\hat{\beta}^t - \beta^*\|^2 = O\left(\frac{n}{t}\right)$, where $\hat{\beta}^t$ is a weighted average of $\beta^1, \dots, \beta^t$ with nonuniform weights that increase linearly in $t$ (see, e.g., \cite{lacoste2012simpler} and \cite[Theorem 3.9]{bubeck2015convex}).
+
+%\paragraph{Approximate equilibrium prices.} Suppose we have obtained an approximate solution $\tilde{\beta}$ such that $\|\tilde{\beta} - \beta^*\|\leq \epsilon$. Then, define $\tilde{p} = \max_i \tilde{\beta}_i v_i$, which is in $L_1(\Theta)_+$ by Lemma \ref{lemma:p=max beta*c-in-V}. We have
+%$\|\tilde{p} - p^*\| = \int_\Theta \left|\max_i \tilde{\beta}_i v_i - \max_i \beta^*_i v_i\right| d\mu \leq \int_\Theta \left(\|\tilde{\beta} - \beta^*\|_\infty \sum_i |v_i| \right) d\mu \leq n \epsilon$.
+%Recall that for any $\tilde{\beta}$, the prices $\tilde{p}$ defined above is a p.w.l. function with at most $n(K-n+1)$ pieces (Lemma \ref{lemma:nK-pieces}). By Lemma \ref{lemma:max-of-n-linear}, finding its p.w.l. representation (breakpoints and linear coefficients on each piece) takes $O(n^2K)$ time. Therefore, under the same time complexity as in Theorem \ref{thm:ellipsoid-EG-dual-complexity} (where the additional factor $n$ is inside $\log$ and is absorbed into the constant), we can compute an approximate equilibrium prices $\tilde{p}$ such that $\|\tilde{p} - p^*\| \leq \epsilon$. Furthermore, under prices $\tilde{p}$, the true $x^*$ may violate buyers' budget constraints:
+%$\langle \tilde{p}, x^*\rangle  = \langle p^*, x_i^*\rangle + \langle \tilde{p} - p^*, x_i^*\rangle \leq B_i + \|\tilde{p} - p^*\| = B_i + n\epsilon$,
+%where the inequality uses Theorem \ref{thm:eg-gives-me} (budget of buyer $i$ depleted, i.e., $\langle p^*, x^*_i \rangle = 1$) and $x^*_i \leq \ones$. Hence, consider the mixed allocation $\tilde{x}_i = \frac{B_i}{B_i+n\epsilon} x^*_i$ for all $i$. This allocation satisfies $\sum_i \tilde{x}_i \leq \ones$ and, for each $i$, its budget constraint is satisfied: $\langle \tilde{p}, \tilde{x}_i\rangle = \frac{B_i}{B_i+n\epsilon} \langle \tilde{p}, x^* \rangle \leq B_i$. Meanwhile, the utility of buyer $i$ from $\tilde{x}_i$ is $\tilde{u}_i = \langle v_i, \tilde{x}_i \rangle = \frac{B_i}{B_i + n\epsilon} u^*_i$, which is close to the equilibrium utility $u^*_i$ as long as $n\epsilon \ll B_i$.
+% As will be seen in \S \ref{sec:x-from-beta}, the discussion here enables us to construct an equilibrium allocation achieving approximate equilibrium utilities.
+
+%%% Local Variables:
+%%% mode: plain-tex
+%%% TeX-master: "../main1"
+%%% End:

@@ -1,0 +1,93 @@
+\section{Extension to quasilinear utilities} \label{sec:ql}
+We now discuss how the results in previous sections---convex optimization characterizations, a finite-dimensional reformulation under piecewise linear utilities and convergence guarantees of stochastic optimization---generalize to the case where each buyer has a quasilinear utility function. 
+For the finite-dimensional case, there is a natural extension of EG to QL utilities, as shown by \citet{chen2007note,cole2017convex}. 
+Furthermore, \citet{conitzer2019pacing} showed that budget management in an auction market with first-price auctions can be computed with the QL variant of EG. 
+
+% Recall that buyers have valuations $v_i \in L_1(\Theta)_+$ and budgets $B_i$; items have unit supply. 
+% W.l.o.g., assume $v_i(\Theta) >0$ for all $i$ (otherwise, simply remove buyer $i$).
+A QL utility is one such that cost is deducted from the utility, that is, $u_i(x_i) = \langle v_i - p, x_i \rangle$, where $p\in L_1(\Theta)_+$ is the vector of prices of all items. 
+A market equilibrium under QL utilities (QLME) is a pair of allocations $x^* = (x_i)\in (L_1(\Theta)_+)^n$ and prices $p^*\in L_1(\Theta)_+$ such that
+\begin{itemize}
+    \item For each buyer $i$, their allocation is optimal: 
+        \[ x^*_i \in \argmax \{ \langle v_i - p^*, x_i \rangle: \langle p^*, x_i\rangle \leq B_i,\, x_i \in L_\infty(\Theta)_+\}. \]
+    \item Market clears: $\langle p^*,  \ones - \sum_i x^*_i \rangle = 0$.
+\end{itemize}
+In the QL case, we cannot normalize both valuations and budgets, since buyers' budgets have value outside the current market. %In particular, it is possible that \emph{any} QLME leaves some items $\Theta_0 \subseteq \Theta$ ($\mu(\Theta_0) > 0$) unallocated, due to all buyers having low or zero valuations of items in $\Theta_0$.
+Without loss of generality, we can only assume that $\|B\|_1 = 1$ and $v_i(\Theta) >0$ for all $i$ (all buyers' $v_i$ and $B_i$ must be scaled by the same constant).
+
+% For the case of finitely many items, i.e., $\Theta = [m]$, \citet[Lemma 5]{cole2017convex} shows that EG-type convex programs capture the equilibrium utilities of a QLME. 
+Here, we consider the infinite-dimensional ``primal'' Eisenberg-Gale convex program:
+\begin{align}
+    \begin{split}
+    \sup\, & \sum_i (B_i \log u_i - \delta_i) \\ 
+    \st & u_i \leq \langle v_i, x_i \rangle + \delta_i,\, \forall\, i \in [n], \\
+    & \sum_i x_i \leq \ones,\,  \\
+    & u_i \geq 0,\ \delta_i \geq 0,\ x_i \in L_1(\Theta)_+,\ \forall\, i \in [n].
+    \end{split}
+    \label{eq:ql-eg-primal} 
+    \tag{$\mathcal P_{\rm QLEG}$}
+\end{align}
+The ``dual'' is
+\begin{align}
+    \begin{split}
+        \inf\, & \langle p, \ones \rangle - \sum_i B_i \log \beta_i \\
+        \st & p \geq \beta_i v_i,\ \beta_i \leq 1,\ \forall\, i \in [n], \\
+        & p \in L_1(\Theta)_+,\ \beta\in \RR^d_+.
+    \end{split} 
+    \label{eq:ql-eg-dual-p-beta}
+    \tag{$\mathcal D_{\rm QLEG}$}
+\end{align}
+As in our earlier results, the ``primal'' and ``dual'' terminology should only be understood intuitively; the programs are not derived from each other via duality. However, the next theorem shows that they indeed behave like duals.
+\begin{theorem} \label{thm:ql-me-duality-and-eq}
+    The following results hold regarding \eqref{eq:ql-eg-primal} and \eqref{eq:ql-eg-dual-p-beta}.
+    \begin{enumerate}[label=(\alph*)]
+        \item The supremum of \eqref{eq:ql-eg-primal} is attained via an optimal solution $(x^*, \delta^*)$, in which $x^* = (x^*_i)$ is a pure allocation, that is, $x^*_i = \ones_{\Theta_i}$ for a.e.-disjoint measurable subsets $\Theta_i \subseteq \Theta$. \label{item:ql-primal-attainment}
+        \item The infimum of \eqref{eq:ql-eg-dual-p-beta} is attained via an optimal solution $(p^*, \beta^*)$, in which $\beta^*\in \RR^n_+$ is unique and $p^* = \max_i \beta^*_i v_i$ a.e. \label{item:ql-dual-attainment}
+        \item Given a feasible $(x^*, \delta^*)$  to \eqref{eq:ql-eg-primal} and a feasible $(p^*, \beta^*)$ to \eqref{eq:ql-eg-dual-p-beta}, they are both optimal solutions of their respective convex programs if and only if the following KKT conditions hold:
+        \label{item:ql-kkt}
+        \begin{align*}
+            & \left \langle p^*, \ones - \sum_i x^*_i \right \rangle = 0, \\
+            & u^*_i := \frac{B_i}{\beta^*_i}, \ \forall\, i, \\
+            & \delta^*_i (1 - \beta^*_i) = 0,\ \forall\, i,\\
+            & \langle p^* - \beta^*_i v_i, x^*_i \rangle = 0, \ \forall \, i.
+        \end{align*}
+        \item A pair of allocations and prices $(x^*, p^*) \in (L_\infty(\Theta)_+)^n \times L_1(\Theta)_+$ is a QLME if and only if there exists $\delta^* \in \RR_+^n$ and $\beta^*\in \RR_+^n$ such that $(x^*, \delta^*)$ and $(p^*, \beta^*)$ are optimal solutions of \eqref{eq:ql-eg-primal} and \eqref{eq:ql-eg-dual-p-beta}, respectively. 
+        \label{item:ql-eq-iff-opt}
+    \end{enumerate}
+\end{theorem}
+Note that $u^*_i$ above does \emph{not} correspond to the equilibrium utility of buyer $i$, which is $\langle v_i - p^*, x^*_i \rangle$.
+Instead, by the definition of QLME and the above theorem, for each buyer $i$, there are two possibilities at equilibrium ($\Leftrightarrow$ primal and dual optimality).
+\begin{itemize}
+    \item If $\beta^*_i < 1$, then $\delta^*_i = 0$ and $u^*_i = \langle v_i, x^*_i \rangle$ in \eqref{eq:ql-eg-primal}. 
+    Since $\langle p^* - \beta^*_i v_i, x^*_i \rangle = 0$, the equilibrium utility is 
+        \[ \langle v_i - p^*, x_i \rangle = (1 - \beta^*_i) \langle v_i, x^*_i \rangle =(1-\beta^*_i) u^*_i. \]
+    \item If $\beta^*_i = 1$, then $\langle p^* - \beta^*_i v_i, x^*_i \rangle = 0$ implies the equilibrium utility is 
+    \[  \langle v_i - p^*, x^*_i \rangle = 0. \]
+\end{itemize}
+
+\paragraph{Tractable convex optimization under piecewise linear valuations over $[0,1]$.} Similar to \S\ref{sec:convex-opt-for-pwl}, we can reformulate \eqref{eq:ql-eg-primal} into a tractable convex program using the same characterization of the set of feasible utilities $u_i$ (which does not take prices into account) in Theorems~\ref{thm:U-conic-rep} and \eqref{thm:U-conic-rep-general-vi}. To reconstruct a pure allocation that achieves the equilibrium utilities, run Algorithm~\ref{alg:interval-partition-given-feasible-u} on the subintervals corresponding to the linear pieces of the valuations.
+
+\paragraph{Stochastic optimization.} 
+Similar to the case of linear utilities (Lemma~\ref{lemma:equi-bounds}), we can establish bounds on equilibrium quantities such as the equilibrium utility prices $\beta^*$. For a finite-dimensional Fisher market with buyers having QL utilities, \cite[Lemma~2]{gao2020first} gives bounds on equilibrium prices. Similar to their proof, we can show that 
+\[u^*_i \leq v_i(\Theta) + B_i \leq 1+B_i \ \Rightarrow\ \beta^*_i = \frac{B_i}{u^*_i} \geq \frac{B_i}{ v_i(\Theta) +B_i} > 0.  \]
+It follows that we can add the following bounds (together with the existing bound $\beta_i\leq 1$)
+\[ \frac{B_i}{v_i(\Theta) + B_i} \leq \beta_i \leq  1, \]
+to \eqref{eq:ql-eg-dual-p-beta} without affecting its (unique) optimal solution $\beta^*$. 
+Hence, completely analogous to the linear case discussed in \S\ref{sec:sda}, we can use SDA to solve \eqref{eq:ql-eg-dual-p-beta}  with similar convergence guarantees.
+
+
+% \subsection*{QL: Piecewise linear valuations on unit interval - convex conic reformulation}
+% \subsection*{QL: SDA}
+
+% For a QLME $(x^*, p^*)$, we have 
+% \[ x^*_i \in \argmax \left\{ \langle v_i - p^*, x_i\rangle: \langle p^*, x_i \rangle \leq B_i,\, x_i \in L_\infty(\Theta)_+ \right\}. \]
+% Fixing $x = x^*$ in \eqref{eq:ql-eg-primal}, the convex programs reduces to, for each $i$, 
+% \[ \max\, B_i \log u_i - \delta_i\ \st\ u_i \leq \langle v_i, x^*_i \rangle + \delta_i. \]
+% Using the method of Lagrange multipliers, a sufficient optimality condition of the above problem is .....
+
+% on the left (among feasible $(x, u, \delta)$ of \eqref{eq:ql-eg-primal}) and infimum on the right (among feasible $(p, \beta)$ of \eqref{eq:ql-eg-dual-p-beta}),
+
+%%% Local Variables:
+%%% mode: plain-tex
+%%% TeX-master: "../main1"
+%%% End:

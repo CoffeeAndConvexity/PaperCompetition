@@ -1,0 +1,103 @@
+\section{Summary, discussion and future research}
+Motivated by applications in ad auctions and fair recommender systems, we considered a Fisher market with a continuum of items and the concept of a market equilibrium in this setting. 
+By extending the finite-dimensional Eisenberg-Gale convex program and its dual, we proposed convex programs whose optimal solutions are ME, and vice versa. 
+Optimality conditions for the convex programs parallel structural properties of ME. Under a continuum of items, a pure market equilibrium must exist, and an equilibrium allocation is guaranteed to be Pareto optimal, envy-free and proportional. Hence, when all buyers have the same budget, a pure equilibrium allocation is a fair division.
+Under piecewise linear buyer valuations over a closed interval, we showed that the infinite-dimensional Eisenberg-Gale convex program \eqref{eq:eg-primal} can be reformulated as a finite-dimensional convex program with linear and quadratic constraints, via simple characterizations of the set of feasible utilities and a sequence of reformulations. 
+This yielded a highly scalable approach for computing a fair division under piecewise linear buyer valuations, and the first polynomial-time algorithm for this problem.
+
+For future research, we would like to consider tractable convex optimization formulations for a multidimensional item space $\Theta = [a_i, b_i]^d$ representing linear features of items. 
+This has application in low-rank market models in ad auctions with budget constraints \citep{conitzer2019pacing}. 
+There, a low-rank model typically assumes a distribution over the space of possible item types (which captures the extremely large space of possible impressions). Modeling it as a finite-dimensional Fisher markets require discretizing the space of items, leading to a huge number of items. Our approach can potentially provide a much more compact convex optimization reformulation, and scale much better in both the number of items and the feature dimension. Another interesting direction is to find other structured classes of valuations for which tractable reformulations similar to the piecewise linear case exist.
+
+%When we only have  $\tilde{\beta}$ such that $\|\tilde{\beta} - \beta^*\| \leq \epsilon$, we can still perform the above to obtain $\Theta_i = \{ \tilde{\beta}_i v_i \geq \tilde{\beta}_j v_j,\ \forall\, j\neq i \}$, which are pairwise a.e.-disjoint (still assuming $v_i$ are linear and distinct, with $\|v_i\| = 1$).
+%
+%Another interesting case is $\Theta = [0,1]$ and each $v_i$ is a $K_i$-piecewise linear function (i.e., piecewise linear with $K_i$ linear pieces, not necessarily continuous) on $[0,1]$. In this case, we can construct an (exact) equilibrium $x^*$ from $\beta^*$, or an approximate one $\tilde{x}$ from $\tilde{\beta}$. To this end, we need some lemmas regarding efficient representation of piecewise linear functions.
+%
+%
+%Let each $v_i$ be represented by a set of $K_i$ breakpoints $0 = s_{i,0} < s_{i, 1} < \dots < s_{i,K_i} = 1$. For each $i$, let $v_i(\theta) = c_{i,k}\theta + d_{i,k}$, $k\in [K_i]$. 
+%Let the (union of) $\{s_{i,K_i}\}$ for all $i$ (c.f. Lemma \ref{lemma:nK-pieces}) be $0 = s_0 < s_1 < \dots < s_{K'} = 1$, $K' \leq K$, which depend only on $v_i$. On $[s_{k-1}, s_k]$, $k\in [K']$, every $v_i$ is linear. Therefore, given $\tilde{\beta}\in [\ubar{\beta}, \bar{\beta}]$, the function $\theta\mapsto \max_i \tilde{\beta}_i v_i$ has at most $n$ linear 
+%pieces on $[s_{k-1}, s_k]$ (Lemma \ref{lemma:max-of-n-linear}). We denote \textit{all} breakpoints, including $\{s_0, \dots, s_{K'}\}$ and the ones on each $[s_{k-1}, s_k]$, $k\in [K']$, as 
+%$0 = a_0 \leq a_1 \leq \dots \leq a_{nK'} = 1$,
+%where we explicitly count all (potential) $n$ pieces on each $[s_{k-1}, s_k]$, some of which may be empty. Note that these breakpoints (except $\{s_k\}$) depend on $\tilde{\beta}$.
+%Let $\tilde{p} = \max_i \tilde{\beta}_i v_i$. 
+%Discretize $[0,1]$ into $nK'$ ``items'' $[a_{k-1}, a_k]$, $k\in [nK']$. Let $\tilde{v}_{ik} = v_i([a_{k-1}, a_k])$, $\tilde{p}_k = \tilde{p}([a_{k-1}, a_k])$ for all $i\in [n]$, $k\in [nK']$. Consider the following linear program:
+%\begin{align}
+%	\begin{split}
+%	&\max\, \sum_i \sum_k \tilde{v}_{ik} x_{ik}
+%	\ \ \st \\
+%	&\sum_k \tilde{p}_k x_{ik} \leq B_i,\ \forall\, i\in [n],\ \sum_i x_{ik} \leq 1,\, \forall\, k\in [nK'].
+%	\end{split}
+%	\label{eq:lp-max-sum-util-s.t.-supply-budget}
+%\end{align}
+%
+%\begin{lemma}
+%	Let $\tilde{\beta} = \beta^*$. Then, the maximum objective of \eqref{eq:lp-max-sum-util-s.t.-supply-budget} is $\sum_i u^*_i$. 
+%	Let $(x^\circ_{ik})\in \RR^{n\times (nK')}_+$ solves \eqref{eq:lp-max-sum-util-s.t.-supply-budget}. Then, $x^*_i = \sum_k x^\circ_{ik} \cdot \ones_{[a_{k-1}, a_k]}$, $i\in [n]$ is an equilibrium allocation. \label{lemma:lp-max-util-s.t.-supply-budget}
+%\end{lemma}
+%\subsection{Proof of Lemma \ref{lemma:lp-max-util-s.t.-supply-budget}}
+%Suppose $\{a_k\}$ are the breakpoints of $\max_i \beta^*_i v_i$. Let a pure equilibrium allocation be $x^*$ (given by disjoint measurable sets $\{\Theta_i\}$, which we assume to be a measurable partition, w.l.o.g.). Clearly, $\tilde{p} = p^*$. Let $u^*_i = \frac{B_i}{\beta^*_i} = \langle v_i, x^*_i \rangle = v_i(\Theta_i)$. By Theorem \ref{thm:eg-gives-me} and Lemma \ref{lemma:weak-duality}, $\mu(\Theta_i \cap [a_{k-1}, a_k]) = 0$ if buyer $i$ does not win on $[a_{k-1}, a_k]$ (it either wins on the entire interval or not win at all, since $[a_{k-1}, a_k]$ is a subinterval of one of the intervals of $v_i$). On each $[a_{k-1}, a_k]$, we have $p^* = \beta^*_i v_i$ (a line segment) for $i\in I_k$ (the set of winners on this interval). Therefore, in this case, 
+%\[\tilde{p}_k = p^*([a_{k-1}, a_k]) = \beta^*_i v_i([a_{k-1}, a_k]) = \beta^*_i  \tilde{v}_{ik} \geq \beta^*_j \tilde{v}_{jk}\] 
+%for each $k\in [nK']$, $i\in I_k$, $j\neq I_k$. Hence, for $(x_{ik})$ feasible to \eqref{eq:lp-max-sum-util-s.t.-supply-budget}, for each $i$, 
+%\begin{align}
+%	 \sum_k \tilde{v}_{ik} x_{ik} \leq \frac{1}{\beta^*_i} \sum_k \tilde{p}_k = \frac{B_i}{\beta^*_i} = u^*_i. \label{eq:feas-xik<=ui}
+%\end{align}
+%Therefore, the optimal objective is at most $\sum_i u^*_i$. Meanwhile, consider $x_{ik} = \frac{p^*(\Theta_i \cap [a_{k-1}, a_k])}{\tilde{p}_k}$ ($:=0$ if $a_{k-1} = a_k$). Clearly, $x_{ik} = 0$ if $i\neq I_k$. For all $i,k$.
+%\[ \sum_k \tilde{p}_k x_{ik} = p^*(\Theta_i) = B_i,\ \forall\, i \]
+%and 
+%\[ \sum_i x_{ik} = 1,\ \forall\, k. \]
+%Meanwhile, since $\beta^*_i \tilde{v}_{ik} = \tilde{p}_k$ for $i\in I_k$ and $x_{ik} = 0$ for $i\neq I_k$,
+%\[ \sum_i\sum_k \tilde{v}_{ik}x_{ik} = \sum_i \sum_{k:\,i\in I_k} \frac{1}{\beta^*_i} \frac{p^*(\Theta_i \cap [a_{k-1}, a_k])}{\tilde{p}_k} = \sum_i \frac{p^*(\Theta_i)}{\beta^*_i} = \sum_i \frac{B_i}{\beta^*_i} = \sum_i u^*_i. \]
+%Therefore, when $\tilde{\beta} = \beta^*$, the optimal objective value of \eqref{eq:lp-max-sum-util-s.t.-supply-budget} is $\sum_i u^*_i$, which is achieved by $x_{ik}$ constructed from $\{\Theta_i\}$ as above. 
+%
+%Next, we show that any optimal solution $x^\circ$ of \eqref{eq:lp-max-sum-util-s.t.-supply-budget} also gives an equilibrium allocation. To see this, notice that, since $x^\circ$ is optimal, by \eqref{eq:feas-xik<=ui}, we must have 
+%\[ 
+% \sum_k\tilde{v}_{ik} x^\circ_{ik} = u^*_i,\ \forall\, i. \]
+%Therefore, $x^*_i$ defined in the lemma statement satisfies
+%\[ \langle v_i, x^*_i \rangle = \sum_k \tilde{v}_{ik} x^\circ_{ik} = u^*_i. \]
+%Meanwhile, feasibility
+%\[ \sum_i x^*_i \leq \ones \]
+%can be easily verified on each interval $[a_{k-1}, a_k]$ (since $\sum_i x^\circ_{ik} \leq 1$ for all $i$). Therefore, $x^*$ is an equilibrium allocation.
+%
+%%[Maybe discuss here.]
+%%given by breakpoints $0 = a_{i,0}< a_{i,1}< \dots < a_{i,K_i} = 1$. We have the following. 
+%
+%%Ideally, we want to construct an ``approximate'' equilibrium allocation $\tilde{x}$ (that is, a feasible allocation with near-optimal social welfare, near-zero buyers' regret, and so on) from an approximate solution $\tilde{\beta}$ to \eqref{eq:eg-dual-beta-1}. Such a procedure is difficult to formalize for general $v_i$. However, we will see that, for specific examples of $v_i$, this can be done efficiently.
+%
+%\section{Efficient cake cutting for piecewise linear $v_i$}\label{sec:cake-cutting-pwl-vi}
+%In this section, assume $\Theta = [0,1]$ and $B_i = 1$ (general $B_i$ can be handled similarly). 
+%In this case, a pure equilibrium allocation $\{\Theta_i\}$ gives a partition of $[0,1]$ into measurable subsets (where any leftover zero-value item is assigned to an arbitrary buyer). This is the cake-cutting setting \citep{weller1985fair,cohler2011optimal,procaccia2013cake}, where the goal is to (efficiently, preferably) divide $[0,1]$ among buyers (agents) $i$ to satisfy certain fairness properties. 
+%
+%Next, we show that, given an approximate solution $\tilde{\beta}\approx \beta^*$ of \eqref{eq:eg-dual-beta-1}, we can construct a pure allocation $\tilde{x} = \ones_{\Theta_i}$ such that $\langle v_i, \tilde{x}_i \rangle \approx \tilde{u}^*_i$. For a given $\epsilon>0$, assume 
+%$\tilde{\beta} \in [\ubar{\beta}, \bar{\beta}]$ satisfies $\|\tilde{\beta} - \beta^*\| \leq \epsilon$. 
+%
+%Let $\beta^*$ be the (exact) optimal solution to \eqref{eq:eg-dual-beta-1} and $p^* = \max_i \beta^*_i v_i$ as usual. By Theorem \ref{thm:construct-pure-x*-from-beta*}, there exists a pure allocation $x^*$, $x^*_i = \ones_{\Theta_i}$, such that $(x^*, p^*)$ is a ME. Let 
+%$\tilde{p} = \max_i \beta_i v_i$. Intuitively, we should expect $\tilde{p}\approx p^*$, since $\tilde{\beta} \approx \beta^*$. Indeed, we have (where the norm is the $L_1$ norm)
+%\begin{align*}
+%	\|\tilde{p} - p^*\| &= \int_\Theta \left|\max_i \tilde{\beta}_i v_i - \max_i \beta^*_i v_i\right| d\mu \\
+%	&\leq \int_\Theta \left(\|\tilde{\beta} - \beta^*\|_\infty \sum_i |v_i| \right) d\mu \leq n \epsilon.
+%\end{align*}
+%For any $\tilde{\beta}$, consider the piecewise linear function $\tilde{p} = \max_i \tilde{\beta}_i v_i$. Let the union of breakpoints of $\tilde{p}$ be (c.f. Lemma \ref{lemma:nK-pieces})
+%\[ 0 = l_1 < l_2 < \dots l_{K'} = \dots = l_{n(K-n+1)} = 1.
+%\]
+%On each interval $[l_{k-1}, l_k]$, $k\in [K']$, by Lemma \ref{lemma:max-of-n-linear}, there can be at most $n$ linear pieces 
+%
+%consider the following supply- and budget-constrained utility maximization linear program (LP):
+%\begin{align}
+%	 \label{lp:max-utility-s.t.-supply-budget}
+%\end{align}
+
+
+% Note that the feasible region of \eqref{eq:eg-dual-beta-p}
+%	\[ \{ (p, \beta)\in \cV_+ \times \RR_+^n: p \geq \beta_i v_i,\, \forall\, i \} \]
+%	has a non-empty interior \cite[\S 8.8, Problem 2]{luenberger1997optimization}. Meanwhile, the infimum of \eqref{eq:eg-dual-beta-1} (or equivalently, that of \eqref{eq:eg-dual-beta-p}) is finite. By the general duality theory \cite[Theorem 3.11.2]{ponstein2004approaches}, we have the following.
+%	
+%	\begin{itemize}
+%		\item Strong duality holds when the EG dual \eqref{eq:eg-dual-beta-p} is viewed as the primal convex program and the EG primal \eqref{eq:eg-primal} (with =$\cX_+$ replaced by $\cP^*$, the dual cone of $\cP:= \cV_+$) as the corresponding dual. In other words, the infimum of \eqref{eq:eg-dual-beta-p} equals the supremum of \eqref{eq:eg-primal}. Here, the general theorey guarantees that the supremum of \eqref{eq:eg-primal} is attained (and therefore will be referred to as maximum) by some $x^*\in (\cP^*)^n$. This proves \ref{thm2parts:exist-x*}. Meanwhile, we already know that the infimum of \eqref{eq:eg-dual-beta-p} is attained (hence minimum) by directly analyzing the finite-dimensional convex program \eqref{eq:eg-dual-beta-1} in $\beta$.
+%		\item Complementary slackness holds for any optimal solution $x^*$ of \eqref{eq:eg-primal} and $(p^*, \beta^*)$: \eqref{eq:comp-slack-dual}.
+%		\item For any $(p, \beta)\in \cP\times \RR^n_+$ and $x = (x_i)\in (\cP^*)^n$, the Lagrangian is
+%		\[ \mathcal{L}(p, \beta; x) = \langle p, \ones\rangle - \sum_i B_i \log \beta_i - \sum_i \langle p - \beta_i v_i, x_i \rangle = \sum_i \left(\beta_i \langle v_i, x_i \rangle -B_i \log \beta_i \right) + \left \langle p, \ones - \sum_i x_i \right \rangle. \]
+%		We have
+%		\[ (p^*, \beta^*) \in \argmin_{p\in \cP,\, \beta\in \RR^n_+} \mathcal{L}(p, \beta, x^*). \]
+%	\end{itemize}
+%	By the structure of $\mathcal{L}(p,\beta; x)$ and first-order optimality conditions, $(p^*, \beta^*)$ must satisfy \eqref{eq:comp-slack-dual} and \eqref{eq:u*=B/beta*}. 
+%	In words, \textbf{the market clears} and the utility buyer $i$ receives is its budget divided by its ban-per-buck for \textit{any} optimal solution $x^*\in (\cP^*)^n$ of \eqref{eq:eg-primal}. Again, we emphasize that such an optimal solution may not be represented as measurable functions over $\Theta$, since each $x^*_i$ lies in $\cP^*$, which is a cone in the more general dual space $\cV^* = L_\infty(\Theta)^*$.

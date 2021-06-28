@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,setspace,amssymb,amsfonts,accents,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{subfigure}
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+\usepackage{xspace}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{diagbox}
+\usepackage{color}
+\usepackage{lmodern}
+\usepackage{comment}
+\usepackage[inline]{enumitem}
+\usepackage{pgfplots}
+\usepackage{slashbox}
+
+% \usetikzlibrary{shapes}
+% \usetikzlibrary{snakes}
+% \usetikzlibrary{backgrounds}
+% \usetikzlibrary{calc}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{Proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{assumption}{Assumption} 
+% \newtheorem*{proof}{Proof}
+
+\usepackage{hyperref,xcolor}
+\usepackage[capitalise]{cleveref}
+% \usepackage{accents,enumitem,mathtools,booktabs,diagbox,xcolor}
+% usepackage[ruled,vlined]{algorithm2e}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\st}{{\rm s.t.}\ }
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\interior}{\textnormal{int}\,}
+\newcommand{\conv}{\textnormal{conv}\,}
+\newcommand{\almeve}{\textnormal{a.e.}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\poly}{\textnormal{Poly}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}} 
+\newcommand{\ck}[1]{{\color{blue} #1}}
+\newcommand{\yuan}[1]{{\color{brown} #1}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\spacing{1.5}
+
+% Natbib setup for author-year style
+\usepackage{natbib}
+ \bibpunct[, ]{(}{)}{,}{a}{}{,}%
+ \def\bibfont{\small}%
+ \def\bibsep{\smallskipamount}%
+ \def\bibhang{24pt}%
+ \def\newblock{\ }%
+ \def\BIBand{and}%
+
+\title{Infinite Dimensional Fisher Markets and Tractable Fair Division}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\input{text/abstract.tex}
+\input{text/intro.tex}
+\input{text/fisher_market.tex}
+\input{text/equilibrium_and_duality.tex}
+\input{text/conic_reform_pwl.tex}
+\input{text/extensions.tex}
+% \input{text/conclusion.tex}
+
+\appendix
+\input{text/appendix.tex}
+
+\bibliographystyle{plainnat} 
+\bibliography{refs.bib}
+
+\end{document}
+
