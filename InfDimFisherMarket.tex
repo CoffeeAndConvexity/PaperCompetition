@@ -60,9 +60,10 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \spacing{1.5}
+\renewcommand{\paragraph}[1]{\noindent\textbf{#1}}
 
 % Natbib setup for author-year style
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
  \bibpunct[, ]{(}{)}{,}{a}{}{,}%
  \def\bibfont{\small}%
  \def\bibsep{\smallskipamount}%
@@ -87,7 +88,7 @@
 \appendix
 \input{text/appendix.tex}
 
-\bibliographystyle{plainnat} 
+\bibliographystyle{abbrvnat} 
 \bibliography{refs.bib}
 
 \end{document}
