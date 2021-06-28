@@ -1,4 +1,11 @@
-# JFIG INFORMS Paper Competition
-LaTeX template for the INFORMS JFIG Paper Competition
+All modifications made with proper rephrasing / removal of other references, with or without \ref, \eqref.
 
-This is the LaTeX template for the INFORMS JFIG Paper Competition. While it is by no means mandatory to use it, it provides applicants with a good example of how the final submission should look like. Good luck!
+* Removed stochastic optimization and QL (but added a few lines in the intro). 
+
+* Removed bounds on equilibrium beta (since we omit stochastic optimization details).
+
+* Removed some examples. 
+
+* Removed more details on the experiments in the appendix.
+
+* Moved many \[...\] equations inline.
