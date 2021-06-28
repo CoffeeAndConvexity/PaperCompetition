@@ -1,7 +1,8 @@
 
 \section{Proofs} \label{app:proofs}
 
-	\subsubsection*{Proof of Lemma~\ref{lemma:U-convex-compact}}
+\subsection{Proofs from Section~\ref{sec:equi-and-dual}}
+	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:U-convex-compact}}
 
 	First, we state a lemma due to \citet[Theorems 1 and 4]{dvoretzky1951relations}. Here, we assume that there is an underlying $\sigma$-algebra $\mathcal{M}$ on $\Theta$ corresponding to all measures $\mu_i$.
 	\begin{lemma}
@@ -33,7 +34,7 @@
 	$U = U'$.
 	The set $U=U'$ is convex and compact (in $\RR^n$) since projection preserves convexity and compactness in a finite-dimensional Euclidean space.
 
-	\subsection*{Proof of Theorem~\ref{thm:eg-equi-opt-combined}}
+	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:eg-equi-opt-combined}}
 	\paragraph{Proof Part~\ref{item:eg-primal-attain}.}
 	By Lemma~\ref{lemma:U-convex-compact}, the set $U = U(v, \Theta) \subseteq \RR_+^n$ is convex and compact. Let $\rho(u) = -\sum_i B_i \log u_i$. Taking $u^0_i = \langle v_i, \ones/n \rangle = \frac{1}{n} v_i(\Theta)$ for all $i$ ensures $u^0\in \mathcal{U}$ and $\rho(u^0)$ is finite. Since
 	$u_i \leq \langle v_i, \ones \rangle = v_i(\Theta) < \infty$
@@ -63,7 +64,7 @@
 	
 	Finally, when solving \eqref{eq:eg-dual-beta-p}, for any fixed $\beta$, the objective is clearly minimized at $p = \max_i \beta_i v_i \in L^1(\Theta)_+$. Therefore, we can eliminate $p$ in this way and obtain \eqref{eq:eg-dual-beta-1}. In other words, for the optimal solution $\beta^*$ of \eqref{eq:eg-dual-beta-1}, setting $p^* := \max_i \beta^*_i v_i$ gives an optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}, which is (a.e.) unique. 
 
-	\subsection*{Proof of Lemma~\ref{lemma:weak-duality}}
+	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:weak-duality}}
 	\paragraph{Proof of Part~\ref{item:eg-weak-duality}.}
 	Introduce new variables $u = (u_i) \in \RR_+^n$ and rewrite \eqref{eq:eg-primal} into 
 	\begin{align}
@@ -100,7 +101,7 @@
 	If they satisfy \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}, then all inequalities in \eqref{eq:eg-weak-duality-ineq-chain} are tight. 
 	Hence, both $x^*$ and $(p^*, \beta^*)$ must be optimal.
 
-	\subsection*{Proof of Theorem~\ref{thm:eg-gives-me}}
+	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:eg-gives-me}}
 	\paragraph{Optimal solutions $\Rightarrow$ ME.}
 	We first show the forward direction. Let $x^*$ and $(p^*, \beta^*)$ be optimal solutions of \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. By Lemma~\ref{lemma:weak-duality}, they satisfy \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}.
 	Here, \eqref{eq:mkt-clear} gives market clearance. 
@@ -128,7 +129,7 @@
 	Furthermore, by the choices of $x^*$ and $(p^*, \beta^*)$, they satisfy \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}.
 	Therefore, by Lemma~\ref{lemma:weak-duality}, they must be optimal to \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. 
 
-	\subsection*{Proofs of Corollaries}
+	\smallskip\noindent\textbf{Proofs of Corollaries}
 	\paragraph{Corollary~\ref{cor:me-structiral-properties}.} 
 	Since $(x^*, p^*)$ is a ME, by Theorem~\ref{thm:eg-gives-me}, $x^*$ and $(p^*, \beta^*)$ (where $\beta^*_i = \frac{B_i}{u^*_i}$, $u^*_i = \langle v_i, x^*_i\rangle$) are optimal solutions of \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. By Lemma~\ref{lemma:weak-duality}, the KKT conditions \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual} holds. 
 
@@ -142,7 +143,7 @@
 	$ p^*(A) = \sum_i p^*(A\cap \Theta_i) = \sum_i \beta^*_i v_i(A\cap \Theta_i)$
 	for any measurable set $A \subseteq \Theta$. 
 
-	\subsection*{Proof of Theorem~\ref{thm:me-is-pareto-ef-prop}}
+	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:me-is-pareto-ef-prop}}
 	\paragraph{Pareto optimality.}
 	Since $x^*$ is an equilibrium allocation, by Theorem~\ref{thm:eg-gives-me}, it is also an optimal solution of \eqref{eq:eg-primal}. If there exists $\tilde{x}\in (L^\infty(\Theta)_+)^n$, $\sum_i \tilde{x}_i \leq 1$ such that $\langle v_i, \tilde{x}_i \rangle \geq \langle v_i, x^*_i \rangle$ for all $i$ and at least one inequality is strict, then 
 	$\sum_i B_i \log \langle v_i, \tilde{x}_i \rangle > \sum_i B_i \log \langle v_i, x^*_i \rangle$,
@@ -163,7 +164,8 @@
 	In other words, buyer $i$ can afford the bundle $\frac{B_i}{\|B\|_1} \ones $. Hence, its equilibrium utility must be at least
 	$ \left \langle v_i,\frac{B_i}{\|B\|_1}\ones \right\rangle = \frac{B_i}{\|B\|_1}v_i(\Theta)$.
 	
-	\subsection*{Proof of Lemma~\ref{lemma:all-linear-equilibrium-geometry}}
+\subsection{Proofs From Section~\ref{sec:convex-opt-for-pwl}}
+	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:all-linear-equilibrium-geometry}}
 	%	Let the set of \textit{Pareto optimal} utilities be  $U^\circ\subseteq U$, that is, for any $u^\circ \in  U^\circ$, there does \textit{not} exist $u\in  U$ such that $u^\circ \leq u$ and $u^\circ_i < u_i$ for some $i$.
 		Since $\beta^*_i v_i$ are linear, the equilibrium price vector $p^* = \max_i \beta^*_i v_i$ is a piecewise linear function with at most $n$ pieces. Each linear piece has a support interval corresponding to the ``winning set'' of a buyer $\{p^* = \beta^*_i v_i\}$.
 		Since all $v_i$ are linear, normalized and distinct, there is no tie, i.e., no $i\neq j$ such that $\beta^*_i v_i = \beta^*_j v_i$ on a set of positive measure (otherwise we must have $v_i = v_j$ on $[0,1]$).
@@ -182,7 +184,7 @@
 		Therefore, $\Theta_i = [a^*_{i-1}, a^*_i]$, $i\in [n]$ is the unique pure equilibrium allocation. 
 	
 
-		\subsection*{Proof of Lemma~\ref{lemma:pareto-opt-utility-is-equil-of-some-B}}
+		\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:pareto-opt-utility-is-equil-of-some-B}}
 		Assume $u^\circ_i>0$ for all $i$. 
 	If this does not hold, remove the buyers with $u^\circ_i=0$, assign them zero budgets $B_i = 0$ and consider the market without these buyers. 
 	Since $u^\circ$ is on the Pareto frontier, we know that $(1+\delta)u^\circ\notin U$ for any $\delta>0$. Hence, $u^\circ$ is on the \emph{boundary} of the convex compact set $U$. By the supporting hyperplane theorem, there exists $\beta^\circ\in \RR^n$ such that 
@@ -214,7 +216,7 @@
 	$\beta^\circ_i \langle v_i, x_i \rangle \leq \langle p^\circ, x_i \rangle \leq B_i \ \Rightarrow \ \langle v_i, x_i \rangle \leq u^\circ_i = v_i(\Theta_i)$.
 	Hence, $(\{\Theta_i\}, p^\circ)$ is a ME under budgets $B_i$ and $u^\circ_i = v_i(\Theta_i)$ are the corresponding equilibrium utilities.
 
-	\subsection*{Proof of Lemma~\ref{lemma:all-linear-represent-any-u}}
+	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:all-linear-represent-any-u}}
 	Denote $U = U(v, [0,1])$. 
 	Assume w.l.o.g. that all $u_i > 0$: otherwise, simply remove the buyers with $u_i = 0$ and set $a_{i-1} = a_i$ in the final partition, i.e., giving an empty interval to this buyer.
 
@@ -231,7 +233,7 @@
 	$ v_i([l_i, h_i]) = u_i,\ i\in I$.
 	This is because all buyers $i\in I$ share the same valuation $v_i = v_I$.
 	
-	\subsection*{Proof of Theorem~\ref{thm:U-conic-rep}}
+	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:U-conic-rep}}
 		Define $a_0 = 0$ and $a_n = 1$. By Lemma~\ref{lemma:all-linear-represent-any-u}, for any $u\in U = U(v, [0,1])$, there exists $0\leq a_1 \leq \dots \leq a_{n-1}\leq 1$ such that 
 	\begin{align}
 		u_i \leq \bar{u}_i := \frac{c_i}{2}(a_i^2 - a_{i-1}^2) + d_i (a_i - a_{i-1}),\ i\in [n]. 
@@ -322,7 +324,7 @@
 	Hence, the set of constraints (in particular, $z_i + w_i \geq 0$ and $(z_i,w_i)\in [0,1] \times [-1,0]$) imply
 	$0\leq s_i, t_i \leq 1$.
 
-	\subsection*{Proof of Theorem~\ref{thm:U-conic-rep-general-vi}}
+	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:U-conic-rep-general-vi}}
 
 Consider $\tilde{v}_i(\theta) = (h-l)^2 c_i \theta + (h-l)(c_i l + d_i)$, $\theta\in [0,1]$ and $\varphi(\theta) = \frac{\theta-l}{h-l}$. For any $[a,b]\subseteq [l,h]$, we have
 $
@@ -351,7 +353,7 @@ Therefore,
 $U(v, [l,u]) = U(\tilde{v}, [0,1]) = D P U(\hat{v}_\sigma, [0,1])$
 can also be represented by $O(n)$ linear and quadratic constraints using $O(n)$ auxiliary variables. 
 
-\subsection*{Proof of Theorem~\ref{lemma:eg=>u(ik)-facts}}
+\smallskip\noindent\textbf{Proof of Theorem~\ref{lemma:eg=>u(ik)-facts}}
 First, by Lemma~\ref{lemma:U-convex-compact}, each $U_k$ is convex and compact. W.l.o.g., Assume not all $v_i$ are $0$ on $[a_{k-1}, a_k]$ (otherwise, $U_k = \{\mathbf{0}\}$ is a singleton of the $n$-dimensional zero vector, and we can remove this $k$ in all summations in the following analysis).
 For any $u\in U(v, [0,1])$, there exists $x\in L^\infty([0,1])_+^n$ such that $u_i = \langle v_i, x_i\rangle$.  Let $x_{ik}$ be the restriction of $x_i$ on $[a_{k-1}, a_k]$ and $u_{ik} = \langle v_i, x_{ik}\rangle$. 
 Clearly, this makes the objective value of \eqref{eq:convex-prog-u(ik)} at $(u_{ik})$ equal to that of \eqref{eq:eg-primal} at $x$. Conversely, for any $(u_{ik})$ feasible to \eqref{eq:convex-prog-u(ik)}, we can also find $x$ feasible to \eqref{eq:eg-primal} that attains the same objective value. Therefore, \eqref{eq:convex-prog-u(ik)} and \eqref{eq:eg-primal} have the same optimal objective value. 
@@ -404,7 +406,7 @@ To complete the proof, we calculate the number of each type of variables in the 
 By \eqref{eq:log(ui)=>min(-qi)}, we know that the minimum $f^*$ of \eqref{eq:conic-std-form} is $-z^*$. Finally, the above reformulation does not affect feasible region of the variables $(u_i)$ and $(u_{ik})$.
 Hence, in the optimal solution of the reformulation \eqref{eq:conic-std-form}, these variables correspond to an optimal solution $(u^*_{ik})$ of \eqref{eq:convex-prog-u(ik)}.
 
-\subsection*{Proof of Theorem~\ref{thm:ellipsoid-method-for-u(ik)-convex-program}}
+\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:ellipsoid-method-for-u(ik)-convex-program}}
 To make use of the above theorem, we first case our problem \eqref{eq:convex-prog-u(ik)} into \eqref{eq:generic-constrained-minimization}. Same as in the paragraph below \eqref{eq:convex-prog-u(ik)}, 
 let the decision variables be $(u_i)$, $(u_{ik})$, $(\hat{u}_{ik})$, $(s_{ik})$, $(t_{ik})$, $(z_{ik})$, $(w_{ik})$, with a total number of $O(nK)$. 
 Here, the variables $(u_i)$, $(u_{ik})$ correspond to those in \eqref{eq:convex-prog-u(ik)}. 

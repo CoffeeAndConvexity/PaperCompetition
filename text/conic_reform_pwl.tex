@@ -403,14 +403,6 @@ Then, we run our proposed method end-to-end on randomly generated large instance
 	% The fact that this pure allocation is indeed an equilibrium allocation (with the corresponding $\beta^*$) can also be verified using Corollary~\ref{cor:check-pure-alloc-ME}.
 \end{example}
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.5]{codes/n-linear.pdf}
-	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $4$ buyers with linear (normalized) $v_i$ on $[0,1]$ (Example \ref{ex:linear-numerical}). 
-	The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
-	}
-	\label{fig:n-linear}
-\end{figure}
 
 \begin{example}
 	[Piecewise linear $v_i$] \label{ex:pwl-numerical}
@@ -425,11 +417,21 @@ Then, we run our proposed method end-to-end on randomly generated large instance
 \end{example}
 
 \begin{figure}
+\begin{minipage}{0.48\textwidth}
+	\centering
+	\includegraphics[scale=0.5]{codes/n-linear.pdf}
+	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $4$ buyers with linear (normalized) $v_i$ on $[0,1]$ (Example \ref{ex:linear-numerical}). 
+	The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
+	}
+	\label{fig:n-linear}
+\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}
 	\centering
 	\includegraphics[scale=0.5]{codes/n-pwl.pdf}
 	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $n=4$ buyers with piecewise linear $v_i$ on $[0,1]$ (Example \ref{ex:pwl-numerical}). The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
 	Note that each $v_i$, and hence $p^*$, are p.w.l. They are not necessarily continuous.}
 	\label{fig:n-pwl}
+\end{minipage}
 \end{figure}
 
 \paragraph{Large-scale experiments.} 
