@@ -2,8 +2,7 @@
 \section{Proofs} \label{app:proofs}
 
 \subsection{Proofs from Section~\ref{sec:equi-and-dual}}
-	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:U-convex-compact}}
-
+	\noindent\textbf{Proof of Lemma~\ref{lemma:U-convex-compact}}
 	First, we state a lemma due to \citet[Theorems 1 and 4]{dvoretzky1951relations}. Here, we assume that there is an underlying $\sigma$-algebra $\mathcal{M}$ on $\Theta$ corresponding to all measures $\mu_i$.
 	\begin{lemma}
 		Let $\mu_i$ be finite measures on $\Theta$, $i\in m$. 
@@ -35,6 +34,7 @@
 	The set $U=U'$ is convex and compact (in $\RR^n$) since projection preserves convexity and compactness in a finite-dimensional Euclidean space.
 
 	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:eg-equi-opt-combined}}
+
 	\paragraph{Proof Part~\ref{item:eg-primal-attain}.}
 	By Lemma~\ref{lemma:U-convex-compact}, the set $U = U(v, \Theta) \subseteq \RR_+^n$ is convex and compact. Let $\rho(u) = -\sum_i B_i \log u_i$. Taking $u^0_i = \langle v_i, \ones/n \rangle = \frac{1}{n} v_i(\Theta)$ for all $i$ ensures $u^0\in \mathcal{U}$ and $\rho(u^0)$ is finite. Since
 	$u_i \leq \langle v_i, \ones \rangle = v_i(\Theta) < \infty$
@@ -53,7 +53,7 @@
 
 	\paragraph{Proof of Parts~\ref{item:eg-dual-p-beta-attain} and \ref{item:eg-equi-iff-opt}.} See Lemma~\ref{lemma:beta-dual-attain} and Theorem~\ref{thm:eg-gives-me}, respectively.
 
-	\subsection*{Proof of Lemma~\ref{lemma:beta-dual-attain}}
+	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:beta-dual-attain}}
 	Denote the objective function of \eqref{eq:eg-dual-beta-1} as $\psi(\beta)$. It is easy to check that $\psi$ is real-valued (finite at every $\beta\in \RR^d_+$, since $\langle \max_i \beta_i v_i, \ones \rangle \leq \|\beta\|_\infty \sum_i v_i(\Theta) = n \|\beta\|_\infty \leq \infty $), strictly convex (due to strict convexity of $\beta\mapsto -\sum_i B_i \log \beta_i$) and hence also continuous on $\RR^d_{++}$.
 	Furthermore, for any $i$, when $\beta_i\rightarrow 0$ or $\beta_i \rightarrow \infty$, we have $\psi(\beta) \rightarrow \infty$.
 	Hence, for $\beta^0 = (1, \dots, 1)>0$, there exists $0 < \ubar{\beta} < \bar{\beta} < \infty$ such that 
@@ -65,6 +65,7 @@
 	Finally, when solving \eqref{eq:eg-dual-beta-p}, for any fixed $\beta$, the objective is clearly minimized at $p = \max_i \beta_i v_i \in L^1(\Theta)_+$. Therefore, we can eliminate $p$ in this way and obtain \eqref{eq:eg-dual-beta-1}. In other words, for the optimal solution $\beta^*$ of \eqref{eq:eg-dual-beta-1}, setting $p^* := \max_i \beta^*_i v_i$ gives an optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}, which is (a.e.) unique. 
 
 	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:weak-duality}}
+
 	\paragraph{Proof of Part~\ref{item:eg-weak-duality}.}
 	Introduce new variables $u = (u_i) \in \RR_+^n$ and rewrite \eqref{eq:eg-primal} into 
 	\begin{align}
@@ -102,6 +103,7 @@
 	Hence, both $x^*$ and $(p^*, \beta^*)$ must be optimal.
 
 	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:eg-gives-me}}
+
 	\paragraph{Optimal solutions $\Rightarrow$ ME.}
 	We first show the forward direction. Let $x^*$ and $(p^*, \beta^*)$ be optimal solutions of \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. By Lemma~\ref{lemma:weak-duality}, they satisfy \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}.
 	Here, \eqref{eq:mkt-clear} gives market clearance. 
@@ -144,6 +146,7 @@
 	for any measurable set $A \subseteq \Theta$. 
 
 	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:me-is-pareto-ef-prop}}
+
 	\paragraph{Pareto optimality.}
 	Since $x^*$ is an equilibrium allocation, by Theorem~\ref{thm:eg-gives-me}, it is also an optimal solution of \eqref{eq:eg-primal}. If there exists $\tilde{x}\in (L^\infty(\Theta)_+)^n$, $\sum_i \tilde{x}_i \leq 1$ such that $\langle v_i, \tilde{x}_i \rangle \geq \langle v_i, x^*_i \rangle$ for all $i$ and at least one inequality is strict, then 
 	$\sum_i B_i \log \langle v_i, \tilde{x}_i \rangle > \sum_i B_i \log \langle v_i, x^*_i \rangle$,
@@ -325,7 +328,6 @@
 	$0\leq s_i, t_i \leq 1$.
 
 	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:U-conic-rep-general-vi}}
-
 Consider $\tilde{v}_i(\theta) = (h-l)^2 c_i \theta + (h-l)(c_i l + d_i)$, $\theta\in [0,1]$ and $\varphi(\theta) = \frac{\theta-l}{h-l}$. For any $[a,b]\subseteq [l,h]$, we have
 $
 	\tilde{v}_i([\varphi(a), \varphi(b)]) = \frac{(h-l)^2 c_i}{2}\left( \frac{(b-l)^2}{(h-l)^2} - \frac{(a-l)^2}{(h-l)^2} \right) + (h-l)(c_i l + d_i) \left( \frac{b-l}{h-l} - \frac{a-l}{h-l} \right) 
