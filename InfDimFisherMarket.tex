@@ -17,9 +17,12 @@
 \usepackage{color}
 \usepackage{lmodern}
 \usepackage{comment}
-\usepackage[inline]{enumitem}
+\usepackage[inline,shortlabels]{enumitem}
 \usepackage{pgfplots}
 \usepackage{slashbox}
+% \usepackage{sansmathfonts}
+% \usepackage[T1]{fontenc}
+% \renewcommand*\familydefault{\sfdefault}
 
 % \usetikzlibrary{shapes}
 % \usetikzlibrary{snakes}
@@ -55,6 +58,10 @@
 \newcommand{\ubar}[1]{\underaccent{\bar}{#1}} 
 \newcommand{\ck}[1]{{\color{blue} #1}}
 \newcommand{\yuan}[1]{{\color{brown} #1}}
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -83,7 +90,7 @@
 \input{text/equilibrium_and_duality.tex}
 \input{text/conic_reform_pwl.tex}
 \input{text/extensions.tex}
-% \input{text/conclusion.tex}
+\input{text/conclusion.tex}
 
 \appendix
 \input{text/appendix.tex}

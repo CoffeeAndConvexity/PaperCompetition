@@ -10,23 +10,23 @@ show that there exists a theoretical algorithm that finds an $\epsilon$-approxim
 As discussed in \S\ref{sec:equi-and-dual}, when all $B_i$ are equal we are in the CEEI case, and  a pure equilibrium allocation in which each buyer gets a union of intervals is a fair division in the sense of \citep{weller1985fair}. 
 Hence, our method gives a polynomial-time algorithm for finding a fair division of the unit interval under piecewise linear valuations.
 
-The key to our tractable convex conic program is to show that when the buyers' valuations $v_i$ are piecewise linear and $\Theta = [0,1]$, the set of feasible utilities $U(v, [0,1])$ defined in \eqref{eq:def-U-U(v,Theta)} can be represented by a small number of simple linear and quadratic constraints with a small number of auxiliary variables.
+The key to our tractable convex conic program is to show that when the buyers' valuations $v_i$ are piecewise linear and $\Theta = [0,1]$, the set of feasible utilities $U(v, [0,1])$ defined in Lemma~\ref{lemma:U-convex-compact} can be represented by a small number of simple linear and quadratic constraints with a small number of auxiliary variables.
 The first subsection shows this result for a type of normalized linear valuations on the $[0,1]$ interval. The second subsection extends the characterization to general intervals $[a,b]$ and unnormalized linear valuations, which is necessary for handling piecewise linear valuations later. 
 The next two subsections show our practical and theoretical algorithmic results, respectively, followed by numerical examples and experiments.
 
 \subsection{Characterization of the set $U(v, [0,1])$ under linear $v_i$} \label{subseq:charact-linear-vi-[0,1]}
 We first characterize the set of feasible utilities when each valuation $v_i$ is \emph{linear} over the unit interval $[0,1]$. 
 We will show that it can be represented by $O(n)$ linear and quadratic constraints using $O(n)$ auxiliary variables. Before proceeding, we note that, for a nonnegative linear function $v_i: \theta \mapsto c_i \theta + d_i$ on $[0,1]$, the following operations take constant time:
-\begin{itemize}
-	\item Eval: given $[a,b] \subseteq [0,1]$ the utility of the interval is 
-	$ v_i([a,b]) = \int_a^b v_i(\theta)d\theta = \frac{c_i}{2} (b^2 - a^2) + d_i (b-a)$.
+\begin{enumerate*}[(i)]
+	\item Eval: the utility of a given interval $[a,b]$ is 
+	$ v_i([a,b]) = \int_a^b v_i(\theta)d\theta = \frac{c_i}{2} (b^2 - a^2) + d_i (b-a)$;
 	\item Cut: given $a \in [0,1]$ and $0\leq u_0 \leq v_i([a, 1])$, finding $b\in [a,1]$ such that $v_i([a,b]) = u_0$ amounts to solving a simple quadratic equation
 	$v_i([a,b]) = \frac{c_i}{2}(b^2 - a^2) + d_i(b-a) = u_0$, which gives $b = \frac{-d_i + \sqrt{d_i^2 - c_i(c_i a^2 + 2d_ia+2u_0)}}{c_i}$.
-\end{itemize}
+\end{enumerate*}
 The names ``eval'' (evaluation of the utility of a given interval) and ``cut'' (finding a cut such that the utility of the resulting interval equals a given value) are customary in the cake-cutting literature \citep{procaccia2014cake,robertson1998cake}.
 
 \paragraph{Geometry of a pure equilibrium allocation.} 
-Recall that, by \cref{cor:me-structiral-properties} and \cref{eq:comp-slack-dual}, if $\{\Theta_i\}$ is a pure equilibrium allocation, then it must hold that $\Theta_i \subseteq \{p^* = \beta^*_i v_i \}$ (each buyer only gets a non-zero allocation in regions where $\beta^*_i v_i$ is the maximum among all buyers). 
+Recall that, by \cref{cor:me-structiral-properties}, if $\{\Theta_i\}$ is a pure equilibrium allocation, then it must hold that $\Theta_i \subseteq \{p^* = \beta^*_i v_i \}$. 
 When the valuations $v_i$ are linear functions on $[0,1]$, $p^*$ must be a piecewise linear (p.w.l.) function with at most $n$ pieces. 
 We will use this to show that, in the case of linear valuations, a pure equilibrium allocation only needs to consist of $(n-1)$ cuts on $[0,1]$, resulting in $n$ intervals, one for each buyer. 
 If we are able to compute the equilibrium utilities $u^*_i$ and an \emph{ordering} of the buyers specifying who gets the first interval starting at $0$, who gets the second interval, and so on, then an equilibrium allocation reduces to performing at most $n$ ``cut'' operations to find the exact endpoints of these intervals. 
@@ -41,13 +41,13 @@ We also assume that the valuations $v_i$ are distinct. Due to normalization, thi
 	The item space is $\Theta = [0,1]$. 
 	The valuation of each buyer $i$ is linear and nonnegative: 
 	$v_i(\theta) = c_i \theta + d_i \geq 0, \, \theta\in [0,1]$.
-	The valuations are normalized so that
+	The valuations are normalized:
 	$v_i(\Theta) = \|v_i\| = \int_0^1 v_i(\theta) d\theta = \frac{c_i}{2} + d_i = 1$.
-	The intercepts of $v_i$ are sorted in decreasing order
+	The intercepts of $v_i$ satisfy
 	$2 \geq d_1 > \dots > d_n \geq 0$.
 	\label{assump:linear-distinct-decreasing-[0,1]}
 \end{assumption}
-The upper and lower bounds in Assumption \ref{assump:linear-distinct-decreasing-[0,1]} are due to nonnegativity: $v_i(0) \geq 0$ and $v_i(1) \geq 0$ imply $d_i \geq 0$ and $0 \leq c_i + d_i = 2(1-d_i) + d_i \Rightarrow d_i \leq 2$. The following lemma shows that, under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]}, the equilibrium prices $p^*$ are p.w.l. with exactly $n$ linear pieces, corresponding to intervals that are the pure equilibrium allocations to the buyers.
+The upper and lower bounds above are due to nonnegativity: $v_i(0) \geq 0$ and $v_i(1) \geq 0$ imply $d_i \geq 0$ and $0 \leq c_i + d_i = 2(1-d_i) + d_i \Rightarrow d_i \leq 2$. The following lemma shows that, under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]}, the equilibrium prices $p^*$ are p.w.l. with exactly $n$ linear pieces, corresponding to intervals that are the pure equilibrium allocations to the buyers.
 \begin{lemma}
 	Under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]} and budgets $B_i > 0$, the equilibrium prices $p^* = \max_i \beta^*_i v_i$ are piecewise linear with exactly $n$ linear pieces.
 	The (unique) breakpoints of the linear pieces $0 = a^*_0 < a^*_1 < \dots < a^*_n = 1$ induce a pure allocation: buyer $i$ receives $\Theta_i = [a^*_{i-1}, a^*_i]$, $i\in [n]$. This allocation is the unique equilibrium allocation.
@@ -90,13 +90,13 @@ We start with the case of sorted and normalized (but not necessarily distinct) $
 	Then, a vector of utilities $u$ is in $U(v, [0,1])$ if and only if it is part of a feasible solution to the following constraints together with auxiliary (real) variables $z_i, w_i, s_i, t_i$:
 	\begin{align*}
 		& u = (u_1, \dots, u_n) \geq 0, \ \ u_1 \leq z_1, \ \ u_i \leq z_i + w_{i-1},\ \forall\, i=2, \dots, n-1,\ \ u_n \leq 1 + w_{n-1},\\
-		& G_i \begin{bmatrix}
+		& G_i \left[\begin{smallmatrix}
 			s_i \\ t_i
-		\end{bmatrix} = \begin{bmatrix}
+		\end{smallmatrix}\right] = \left[ \begin{smallmatrix}
 			z_i \\ w_i
-		\end{bmatrix}, \, \begin{bmatrix}
+		\end{smallmatrix}\right], \, \left[\begin{smallmatrix}
 			s_i \\ t_i
-		\end{bmatrix} \in \mathcal{C},\ \forall\, i \in [n-1],\ \ z_i \in [0,1],\, w_i \in [-1,0],\, z_i + w_i \geq 0,\ \forall\, i\in [n-1].
+		\end{smallmatrix}\right] \in \mathcal{C},\ \forall\, i \in [n-1],\ \ z_i \in [0,1],\, w_i \in [-1,0],\, z_i + w_i \geq 0,\ \forall\, i\in [n-1].
 	% & z_i \in [0,1],\, w_i \in [-1,0],\, i\in [n-1].
 	\end{align*} 
 	Furthermore, the above constraints imply $0\leq s_i \leq 1$, $0\leq t_i \leq 1$.
@@ -206,7 +206,7 @@ The linear transformation is the composition of a permutation (represented by a 
 	Let $\sigma$ be a permutation of $[n]$ that sorts $\hat{d}_i$ in descending order, i.e., $\hat{d}_{\sigma(1)} \geq \dots \geq \hat{d}_{\sigma(n)}$. 
 	Let $P\in \{0,1\}^{n\times n}$ be the (inverse) permutation matrix of $\sigma$ with entries $P_{ij} = \mathbb{I}\{i = \sigma(j)\}$. 
 	Let $D\in \RR^{n\times n}$ be a diagonal matrix with $D_{ii} = \Lambda_i := \frac{c_i}{2}(h^2-l^2) + d_i(h-l)$. It holds that
-		 \[ U(v, [l,h]) = D P \hat{U}^\sigma = \{ DP u: u\in \hat{U}^\sigma \}, \]
+		 $ U(v, [l,h]) = D P \hat{U}^\sigma = \{ DP u: u\in \hat{U}^\sigma \}$,
 	where $\hat{U}^\sigma = U(\hat{v}_{\sigma}, [0,1])$ is the set of feasible utilities given (sorted and normalized) valuations $\hat{v}_{\sigma(j)}$, $j \in [n]$ on $[0,1]$ with coefficients $\hat{c}_{\sigma(j)}, \hat{d}_{\sigma(j)}$.
 	\label{thm:U-conic-rep-general-vi}
 \end{theorem}
@@ -223,13 +223,12 @@ Algorithm~\ref{alg:interval-partition-given-feasible-u} solves the more general 
 	Find permutation $\sigma$ of $[n]$ such that $\hat{d}_{\sigma(1)} \geq \dots \geq \hat{d}_{\sigma(n)}$. \\
 	Set $l_{\sigma(1)} = h_{\sigma(0)} = l$ (define $\sigma(0)  = 0$) and $h_{\sigma(n)} = h$.\\
 	\textbf{For} $j = 1, \dots, n-1$:
-	\begin{itemize}
-		\item Set $i = \sigma(j)$ (buyer $i$ gets the $j$th interval, with left endpoint $l_i = l_{\sigma(j)} = h_{\sigma(j-1)}$).
-		\item Find the right endpoint $h_i\in [l_i, h]$ such that $v_i([l_i, h_i]) = u_i$ by solving the quadratic equation (the ``cut'' operation)
-		$\frac{c_i}{2}(h_i^2 - l_i^2) + d_i(h_i - l_i) = u_i$.
-		\item Set $l_{\sigma(j+1)} = h_i$.
-	\end{itemize}
-
+	\begin{enumerate*}[(i)]
+		\item set $i = \sigma(j)$ (buyer $i$ gets the $j$th interval, with left endpoint $l_i = l_{\sigma(j)} = h_{\sigma(j-1)}$);
+		\item find the right endpoint $h_i\in [l_i, h]$ such that $v_i([l_i, h_i]) = u_i$ by solving the quadratic equation (the ``cut'' operation)
+		$\frac{c_i}{2}(h_i^2 - l_i^2) + d_i(h_i - l_i) = u_i$;
+		\item set $l_{\sigma(j+1)} = h_i$.
+	\end{enumerate*}\\[1ex]
 	 \textbf{Return:} $[l_i, h_i]$, $i\in [n]$ s.t. $v_i([l_i, h_i])\geq u_i$ (which is equality for $i=\sigma(1), \dots, \sigma(n-1)$).
 	\label{alg:interval-partition-given-feasible-u}
 \end{algorithm}
@@ -292,9 +291,8 @@ Consider the following convex program, whose variables denote how much utility e
 	\sup_{(u_{ik}) \in \RR_+^{n\times K} } \, \sum_{i=1}^n B_i \log \left(\sum_{k=1}^K u_{ik}\right) \ \ \st (u_{1k}, \dots, u_{nk}) \in U_{k},\ \forall\,k \in [K].
 	\label{eq:convex-prog-u(ik)}
 \end{align}
-By Theorem~\ref{thm:U-conic-rep-general-vi}, the set $U_k$ is the image of a permutation and a scaling of another set of feasible utilities spanned by normalized valuations on $[0,1]$:
-\[ U_k = D^k P^k \hat{U}_k.\]
-% Denote the permutation as $\sigma^k$ and the diagonal elements of $D^k$ as $D^k_{ii} = \Lambda_{ik}$.
+By Theorem~\ref{thm:U-conic-rep-general-vi}, the set $U_k$ is the image of a permutation and a scaling of another set of feasible utilities spanned by normalized valuations on $[0,1]$, that is, 
+$U_k = D^k P^k \hat{U}_k$.
 Here, $\hat{U}_k$ is the set of feasible utilities spanned by $\hat{v}_{ik}$, where $v_{ik}$ is the restriction of $v_i$ on interval $[a_{k-1}, a_k]$ and $\hat{v}_{ik}$ (defined on $[0,1]$) are the normalized and sorted versions of $v_{ik}$ as described in Theorem~\ref{thm:U-conic-rep-general-vi}. 
 We will adopt the notation of Theorem~\ref{thm:U-conic-rep-general-vi}, but since we need a set $\hat U_k$ for each piece $k$, we use an additional subscript $k$ to refer to the $k$th copy corresponding to the subinterval $[l,h] = [a_{k-1}, a_k]$.
 Thus, $D^k$ is a diagonal matrix with diagonal entries $\Lambda_{ik} = v_i([a_{k-1}, a_k])$ (this corresponds to $\Lambda_i$ in Theorem~\ref{thm:U-conic-rep-general-vi} with $[l,h] = [a_{k-1}, a_k]$), $P^k$ is a permutation matrix corresponding to the permutation $\sigma^k$ that sorts $\hat{d}_{ik}$ (this corresponds to the intercepts $\hat{d}_i$ in Theorem~\ref{thm:U-conic-rep-general-vi}) in descending order. 
@@ -304,8 +302,7 @@ We will use $(s_{ik}, t_{ik}, w_{ik}, z_{ik}, \hat{u}_{ik})$ to denote the  vari
 
 Next, we will describe how the convex program~\ref{eq:convex-prog-u(ik)} can be solved efficiently in practice using industry-grade interior-point methods.
 % Denote $\mathcal{C} = \{ (t_1,t_2)\in \RR^2: t_1^2 \leq t_2 \}$, same as in Theorem~\ref{thm:U-conic-rep}. 
-To that end, denote the $3$-dimensional second-order (quadratic) cone as $\mathcal{L} = \{ (t_1, t_2, t_3): t_1 \geq \sqrt{t_2^2+t_3^2} \}$ and the $3$-dimensional exponential cone $\mathcal{E}$ as the \textit{closure} of the following set (see, e.g., \cite{chares2009cones}): 
-\[ \mathcal{E}  = \left\{ (t_1, t_2, t_3): e^{t_3/t_2} \leq t_1/t_2,\, t_2 >0 \right\}. \]
+To that end, denote the $3$-dimensional second-order (quadratic) cone as $\mathcal{L} = \{ (t_1, t_2, t_3): t_1 \geq \sqrt{t_2^2+t_3^2} \}$ and the $3$-dimensional exponential cone $\mathcal{E}$ as the \textit{closure} of the set $\mathcal{E}  = \left\{ (t_1, t_2, t_3): e^{t_3/t_2} \leq t_1/t_2,\, t_2 >0 \right\}$ (see, e.g., \cite{chares2009cones}).
 Define the following standard-form convex conic program \citep{skajaa2015homogeneous,dahl2019primal,nemirovski2004interior}:
 \begin{align}
 	\begin{split}
@@ -314,8 +311,8 @@ Define the following standard-form convex conic program \citep{skajaa2015homogen
 \end{align}
 where $A\in \RR^{m\times \bar{n}}$, $c\in \RR^{\bar{n}}$, $b\in \RR^m$, $\bar{n} = n_1 + 3n_2 + 3n_3$ (we use $\bar{n}$ to denote the dimension to distinguish it from $n$, the number of buyers). 
 Problem \eqref{eq:convex-prog-u(ik)} can be reformulated into \eqref{eq:conic-std-form} via standard techniques. 
-The following lemma summarizes the facts about the said reformulation. 
-In additional to the small dimensions $\bar{n} = O(nK)$, $m=O(nK)$, the reformulation also ensures ${\rm nnz}(A) = O(\bar{n})$, where ${\rm nnz}(A)$ denotes the number of nonzeros in the matrix $A$. A complete convex conic reformulation can be found in the proof of the lemma.
+The following theorem summarizes the facts about the said reformulation. 
+In additional to the small dimensions $\bar{n} = O(nK)$, $m=O(nK)$, the reformulation also ensures ${\rm nnz}(A) = O(\bar{n})$, where ${\rm nnz}(A)$ denotes the number of nonzeros in the matrix $A$. A complete convex conic reformulation can be found in the proof of the theorem.
 \begin{theorem}
 	The supremum of \eqref{eq:convex-prog-u(ik)} is attained and is equal to $z^*$, the supremum of \eqref{eq:eg-primal}.
 	For any optimal solution $(u^*_{ik})$ of \eqref{eq:convex-prog-u(ik)}, $u^*_i := \sum_{k=1}^K u^*_{ik}$ is the equilibrium utility of buyer $i$. 
@@ -344,37 +341,12 @@ After computing an optimal solution $(u^*_{ik})$ of \eqref{eq:convex-prog-u(ik)}
 Due to the problems mentioned in the previous section regarding polynomial-time solvability of conic programs involving exponential cones, we next investigate polynomial-time solvability of our problem via alternative methods.
 The results in this section are primarily of theoretical interest; in practice solving the conic program from the previous section using an interior-point solver is extremely efficient and preferable.
 
-We are going to present an algorithm that finds an $\epsilon$-approximate pure equilibrium allocation in $\poly\left(n,k,\log \frac{1}{\epsilon}\right)$ time.
-This method computes approximate equilibrium utility prices using the ellipsoid method for convex optimization and constructs a pure allocation via Algorithm~\ref{alg:interval-partition-given-feasible-u}. Recall our assumptions that $\|B\|_1 = 1$ and $v_i([0,1]) = 1$ for all $i$; the unit interval is divided into $K$ subintervals by breakpoints $a_0 = 0 < a_1 < \dots < a_K = 1$; for each $i$, buyer $i$'s valuation is $v_i(\theta) = c_{ik}\theta+d_{ik}$ on the $k$th subinterval $[a_{k-1}, a_k]$. 
-% We use $\beta^*$ to denote the equilibrium utility prices (see, e.g., Theorem~\ref{thm:eg-gives-me} and Lemma~\ref{lemma:beta-dual-attain}). By Lemma~\ref{lemma:beta-dual-attain} and Theorem~\ref{thm:eg-gives-me}, we know that $\beta^*$ is the unique optimal solution of problem \eqref{eq:eg-dual-beta-1}, which gives the (a.e.-unique) equilibrium prices $p^* = \max_i \beta^*_i v_i$. By Lemma~\ref{lemma:equi-bounds}, we can add the bounds $B_i \leq \beta^*_i \leq 1$ into \eqref{eq:eg-dual-beta-1} without affecting its optimal solution $\beta^*$.
-\paragraph{The ellipsoid method for convex optimization.}
-First, we describe the ellipsoid method for generic convex optimization \citep{shor1977cut,yudin1976informational,yudin1976evaluation,Nemirovski1977optimization}. 
-We refer the readers to the survey \citep{bland1981ellipsoid} for the history of development of ellipsoid methods and further references. 
-Here, we adopt the exposition in \citep{ben2019lectures}.
-Consider the following generic convex program \citep[\S 4.1.4]{ben2019lectures}:
-\begin{align}
-	f^*:= \min_x f(x) \ \st x\in X \label{eq:generic-constrained-minimization}
-\end{align}
-where $f$ is convex and continuous (and hence subdifferentiable) on a compact region $X\subseteq \RR^n$.
-Assume we have access to the following oracles:
-\begin{itemize}
-	\item The \emph{separation} oracle $\mathcal{S}$: given any $x\in \RR^n$, either report $x\in \interior X$ or return a $g\neq 0$ (representing a separating hyperplane) such that $\langle g, x\rangle \geq \langle g, y\rangle$ for any $y\in X$. 
-	\item The \emph{first-order} or \emph{subgradient} oracle $\mathcal{G}$: given $x\in \interior X$ (the interior of $X$), return a subgradient $f'(x)$ of $f$ at $x$, that is, $f(y) \geq f(x) + \langle f'(x), y-x\rangle$ for any $y$.
-\end{itemize} 
-The time complexity of the ellipsoid method is as follows.
-\begin{theorem} \cite[Theorem 4.1.2]{ben2019lectures}
-	Let 
-	\[V = \max_{x\in X} f(x) - f^*,\ \ R = \sup_{x\in X} \|x\|,\] and $r>0$ be the radius of a Euclidean ball contained in $X$.
-	For any $\epsilon>0$, a solution $x_\epsilon\in X$ such that $f(x_\epsilon) \leq f^* + \epsilon$ can be computed using no more than $N(\epsilon)$ calls to $\mathcal{S}$ and $\mathcal{G}$, followed by no more than $O(1)n^2 N(\epsilon)$ arithmetic operations to process the outputs of the oracles, where 
-	$N(\epsilon) = O(1) n^2 \log \left( 2+ \frac{V R}{\epsilon r} \right)$.
-	\label{thm:4.1.2-ellipsoid-bn-notes}
-\end{theorem}
-Using Theorem~\ref{thm:4.1.2-ellipsoid-bn-notes}, we establish the following guarantees regarding solving \eqref{eq:convex-prog-u(ik)}.
+We will show that, by running the ellipsoid method on \eqref{eq:convex-prog-u(ik)}, we can finds an $\epsilon$-approximate pure equilibrium allocation in $\poly\left(n,k,\log \frac{1}{\epsilon}\right)$ time. 
+Recall our assumptions that $\|B\|_1 = 1$ and $v_i([0,1]) = 1$ for all $i$; the unit interval is divided into $K$ subintervals by breakpoints $a_0 = 0 < a_1 < \dots < a_K = 1$; for each $i$, buyer $i$'s valuation is $v_i(\theta) = c_{ik}\theta+d_{ik}$ on the $k$th subinterval $[a_{k-1}, a_k]$. We leverage the time complexity results regarding ellipsoid method in \citep[\S 4.1.4]{ben2019lectures} to show that we can solve our problem in polynomial time.
+We refer the readers to the survey \citep{bland1981ellipsoid} for the history of development of ellipsoid methods and further references.
+Using~\cite[Theorem 4.1.2]{ben2019lectures}, we establish the following guarantees regarding solving \eqref{eq:convex-prog-u(ik)}.
 \begin{theorem}
-	For any $0 < \epsilon < 1$, we can compute $(u_{ik})\in \RR_+^{n\times K}$ such that 
-	\begin{align*}
-		(u_{1k}, \dots, u_{nk})\in U(v, [a_{k-1}, a_k]),\ \forall\, k\in [K], \ \  u_i := \sum_i u_{ik} \geq u^*_i - \epsilon, \ \forall\, i \in [n]
-	\end{align*}
+	For any $0 < \epsilon < 1$, we can compute $(u_{ik})\in \RR_+^{n\times K}$ such that $(u_{1k}, \dots, u_{nk})\in U(v, [a_{k-1}, a_k])$, $\forall\, k\in [K]$ and $u_i := \sum_i u_{ik} \geq u^*_i - \epsilon$, $\forall\, i \in [n]$
 	in $O\left( n^4 K \left( \log(nK) + \log \frac{\kappa}{\epsilon} \right) \right)$ time, where $\kappa = \frac{1}{\min_i B_i}$.
 	Furthermore, a pure equilibrium allocation $\{\Theta_i\}$, where buyer $i$ receives an allocation $\Theta_i = \cup_k [l_{ik}, u_{ik}]$ of at most $K$ intervals,
 	% such that $[l_{ik}, u_{ik}]\subseteq [a_{k-1}, a_k]$ are a.e.-disjoint, 
@@ -382,7 +354,8 @@ Using Theorem~\ref{thm:4.1.2-ellipsoid-bn-notes}, we establish the following gua
 	can be constructed in $O(nK)$ additional time. 
 	\label{thm:ellipsoid-method-for-u(ik)-convex-program}
 \end{theorem}
-At a high level, in order to use Theorem \ref{thm:4.1.2-ellipsoid-bn-notes} to solve our problem \eqref{eq:convex-prog-u(ik)} in polynomial time, we need to cast it into the form \eqref{eq:generic-constrained-minimization}, construct efficient separation and first-order oracles, and bound the ratio $\frac{VR}{\epsilon r}$. To this end, all variables involved have absolute values bounded above by either absolute constants or $\kappa$. In order to ensure a nonzero radius $r>0$ of the feasible region, we can simply ``$\epsilon$-perturb'' the linear constraints and then ``$\epsilon$-discount'' the solution obtained to ensure feasibility w.r.t. the original constraints.
+At a high level, in order to use the ellipsoid method to solve our problem \eqref{eq:convex-prog-u(ik)} in polynomial time, we need to cast it into a standard constrained minimization form, construct efficient separation and first-order oracles, and bound the range of function values and radius of the feasible region. 
+To this end, all variables involved have absolute values bounded above by either absolute constants or $\kappa$. In order to ensure a nonzero radius $r>0$ of the feasible region, we can simply ``$\epsilon$-perturb'' the linear constraints and then ``$\epsilon$-discount'' the solution obtained to ensure feasibility w.r.t. the original constraints.
 
 We remark that the constant $\kappa$ in Theorem~\ref{thm:ellipsoid-method-for-u(ik)-convex-program} can be viewed as a ``condition number'' of problem \eqref{eq:convex-prog-u(ik)}: given a fixed accuracy level $\epsilon$, the running time of the algorithm scales logarithmically (via the term $\log \kappa$) as $\kappa$ grows. 
 This aligns with our intuition about a ``second-order'' method such as an interior-point method or the ellipsoid method. 
@@ -395,17 +368,19 @@ Then, we run our proposed method end-to-end on randomly generated large instance
 
 \begin{example}
 	[Linear $v_i$]
-	\label{ex:linear-numerical}
-	Let there be four buyers with budgets $B = (0.1, 0.3, 0.2, 0.4)$ and normalized linear $v_i$ with intercepts $d = (1.2, 0.6, 0.3, 1.9)$, which implies $c = (-0.4,  0.8,  1.4, -1.8)$. Ordering the buyers by decreasing intercept gives $\sigma = (4, 1, 2, 3)$. 
+	\normalfont
+	Let there be four buyers with budgets $B = (0.1, 0.3, 0.2, 0.4)$ and normalized linear $v_i$ with intercepts $d = (1.2, 0.6, 0.3, 1.9) \ \Rightarrow \ c = (-0.4,  0.8,  1.4, -1.8)$ (since $v_i$ are normalized). 
+	Ordering the buyers by decreasing intercept gives $\sigma = (4, 1, 2, 3)$. 
 	Figure~\ref{fig:n-linear} illustrates the equilibrium prices $p^*$ and the scaled valuation $\beta^*_i v_i$ for each buyer. Buyer $4$ receives the leftmost interval $[0, 0.3713]$, buyer $1$ receives $[0.3713, 0.4921]$, and so on. 
 	For each buyer, its allocated interval $[l_i,h_i]$ is precisely the segment where it ``wins'', i.e., $[l_i, h_i] = \{p^* = \beta^*_i v_i\}$. 
 	Since all buyers have distinct $d_i$ and positive budgets, this is the unique pure allocation. 
-	% The fact that this pure allocation is indeed an equilibrium allocation (with the corresponding $\beta^*$) can also be verified using Corollary~\ref{cor:check-pure-alloc-ME}.
+	\label{ex:linear-numerical}
 \end{example}
 
 
 \begin{example}
-	[Piecewise linear $v_i$] \label{ex:pwl-numerical}
+	[Piecewise linear $v_i$]
+	\normalfont 
 	Let there be $n=4$ buyers, each with piecewise linear valuations $v_i$ with $K = 3$ pieces. Each buyers' linear pieces share endpoints $0 = a_0 < a_1 < a_2 < a_3 = 1$, with $a_1 = 0.3741$, $a_2 = 0.8147$. 
 	Solving the convex program \eqref{eq:convex-prog-u(ik)} gives equilibrium utilities $u^*_{ik}$ for all $i,k$, where $u^*_{ik}$ is the amount of utility buyer $i$ gets from segment $[a_{k-1}, a_k]$ (which can be $0$ for some buyer-segment pairs). 
 	Similarly to the linear case above, we divide each segment  $[a_{k-1}, a_k]$ among the buyers according to their $u^*_{ik}$ and their ordering according $\hat{d}_i$  on interval $k$ (c.f. Lemma~\ref{lemma:all-linear-represent-any-u}).
@@ -414,11 +389,13 @@ Then, we run our proposed method end-to-end on randomly generated large instance
 	% Each buyer's allocation $\Theta_i$ is a union of at most $K$ intervals. 
 	The solution is illustrated in Figure~\ref{fig:n-pwl} using $\beta^*_i v_i$ and $p^*$.
 	For example, on $[a_0, a_1]$, since $p^* > \beta^*_3 v_3$ everywhere on the segment, buyer $3$ does not get allocated anything from this interval, and thus $u^*_{31} = 0$. The same is true for buyer $4$ on $[a_0, a_1]$. 
+	\label{ex:pwl-numerical}
 \end{example}
 
 \begin{figure}
 \begin{minipage}{0.48\textwidth}
 	\centering
+	\vspace{-25pt}
 	\includegraphics[scale=0.5]{codes/n-linear.pdf}
 	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $4$ buyers with linear (normalized) $v_i$ on $[0,1]$ (Example \ref{ex:linear-numerical}). 
 	The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
@@ -447,7 +424,7 @@ Only around $1/3$ of the time arises from ``optimization'', that is, running the
 \begin{table}
 	\begin{center}
 		\input{codes/large-scale.tex}
-		\caption{Running times for each $(n,K)$, mean and standard error across $8$ seeds} 
+		\caption{Running times in seconds for each $(n,K)$, mean and standard error across $8$ seeds} 
 		\label{table:running-times-n-K-seeds}
 	\end{center}
 \end{table}

@@ -19,13 +19,13 @@ z^* = \sup_{x\in (L^\infty(\Theta)_+)^n} \sum_i B_i \log \langle v_i, x_i \rangl
 Motivated by the dual of the finite-dimensional EG convex program \cite[Lemma 3]{cole2017convex}, we also consider the following convex program:
 \begin{align}
 \begin{split}
-w^* = & \inf_{p\in L^1(\Theta)_+,\, \beta\in \RR^n_+} \left[ \langle p, \ones \rangle - \sum_i B_i \log \beta_i\right] \\ & \quad {\rm s.t.} \ p \geq \beta_i v_i\ \almeve, \forall\,i. 
+w^* = \inf_{p\in L^1(\Theta)_+,\, \beta\in \RR^n_+} \left[ \langle p, \ones \rangle - \sum_i B_i \log \beta_i\right]  \quad {\rm s.t.} \ p \geq \beta_i v_i\ \almeve, \forall\,i. 
 \end{split} \tag{$\mathcal D_{\rm EG}$}
 \label{eq:eg-dual-beta-p}
 \end{align}
 
 We state our central theoretical results in the following theorem. Parts of this theorem are stated in more detail in subsequent lemmas and theorems. 
-Proofs of all theoretical results can be found in Appendix \ref{app:proofs}. 
+Proofs of all theoretical results can be found in the appendix. 
 \begin{theorem}
 	\begin{enumerate*}[label=(\alph*)]
 		\item The supremum $z^*$ of \eqref{eq:eg-primal} is attained via a \emph{pure} optimal solution $x^*$, that is, $x^* = (x^*_i)$ and $x^*_i = \ones_{\Theta_i}$ for a.e.-disjoint measurable subsets $\Theta_i\subseteq \Theta$. \label{item:eg-primal-attain}
@@ -36,6 +36,7 @@ Proofs of all theoretical results can be found in Appendix \ref{app:proofs}.
 \end{theorem}
 
 \begin{remark}
+	\normalfont
 	If we view \eqref{eq:eg-dual-beta-p} as the primal, then it can be shown that its Lagrange dual is \eqref{eq:eg-primal}, and weak duality follows (see, e.g., \cite[\S 3]{ponstein2004approaches}). 
 	However, we cannot conclude strong duality, or even primal or dual optimum attainment, since $L^1(\Theta)_+$ has an empty interior \cite[\S 8.8 Problem 1]{luenberger1997optimization} and hence Slater's condition does not hold.
 	If we choose the space for valuations and prices to be $L^\infty(\Theta)$ instead of $L^1(\Theta)$ for the space of allocations $x_i$ (i.e., the underlying Banach space of \eqref{eq:eg-primal}), then \eqref{eq:eg-dual-beta-p}, with $p \in L^\infty(\Theta)_+$, does satisfy Slater's condition \cite[\S 8.8 Problem 2]{luenberger1997optimization}. 
@@ -48,12 +49,10 @@ We briefly explain the proof ideas of Theorem~\ref{thm:eg-equi-opt-combined}.
 Unlike the finite-dimensional case, the feasible region of \eqref{eq:eg-primal} here, although being closed and bounded in the Banach space $L^\infty(\Theta)$, is not compact. In fact, it is easy to construct an infinite sequence in the feasible region that does not have any convergent subsequence.
 This issue can be circumvented using the following lemma.
 \begin{lemma}
-	Define the set of feasible utilities as
-	\begin{align}
-		U = U(v, \Theta) = \left\{ (u_1, \dots, u_n): u_i = \langle v_i, x_i\rangle,\, x\in (L^\infty(\Theta)_+)^n,\, \sum_i x_i \leq \ones \right\} \subseteq \RR_+^n \label{eq:def-U-U(v,Theta)}
-	\end{align}
-	and the set of utilities attainable via pure allocations as
-	\[ U' = U'(v, \Theta) = \left\{ (v_1(\Theta_1), \dots, v_n(\Theta_n)): \Theta_i \subseteq \Theta\, \text{measurable and a.e.-disjoint} \right\} \subseteq \RR_+^n. \]
+	Define the set of feasible utilities as\\
+	$U = U(v, \Theta) = \left\{ (u_1, \dots, u_n): u_i = \langle v_i, x_i\rangle,\, x\in (L^\infty(\Theta)_+)^n,\, \sum_i x_i \leq \ones \right\} \subseteq \RR_+^n \label{eq:def-U-U(v,Theta)}$\\
+	and the set of utilities attainable via pure allocations as\\
+	$U' = U'(v, \Theta) = \left\{ (v_1(\Theta_1), \dots, v_n(\Theta_n)): \Theta_i \subseteq \Theta\, \text{measurable and a.e.-disjoint} \right\} \subseteq \RR_+^n$.\\
 	Then, $U = U'$ and this set is convex and compact.
 	\label{lemma:U-convex-compact}
 \end{lemma}
@@ -70,24 +69,25 @@ Thus we can also reformulate \eqref{eq:eg-dual-beta-p} as the following convex p
 	The infimum of \eqref{eq:eg-dual-beta-1} is attained via a unique minimizer $\beta^* > 0$. The optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p} has a unique $\beta^*$ and satisfies $p^* = \max_i \beta^*_i v_i$ a.e.
 	\label{lemma:beta-dual-attain}
 \end{lemma}
-To show Part \ref{item:eg-equi-iff-opt}, we first establish weak duality and KKT conditions (necessary and sufficient for optimality) in the following lemma. 
+To show Part \ref{item:eg-equi-iff-opt}, we first establish weak duality and KKT conditions in the following lemma. 
 As mentioned before, this is necessary due to the lack of general duality results in infinite-dimensional convex optimization.
-These conditions parallel those in KKT-type first-order optimality conditions in classical nonlinear optimization over Euclidean spaces (see, e.g., \citet[\S 12.3]{nocedal2006numerical} and \citet[\S 3.3.1]{bertsekas1999nonlinear}).
+These conditions parallel those in KKT-type optimality conditions in classical nonlinear optimization over Euclidean spaces (see, e.g., \citet[\S 3.3.1]{bertsekas1999nonlinear}).
 \begin{lemma}
 	Let $C = \|B\|_1 - \sum_i B_i \log B_i$. The following hold.
-	\begin{enumerate}[label=(\alph*)]
+	\begin{enumerate*}[(a)]
 		\item Weak duality: $C + z^* \leq w^*$. \label{item:eg-weak-duality}
-		\item KKT conditions: For $x^*$ feasible to \eqref{eq:eg-primal} and $(p^*, \beta^*)$ feasible to \eqref{eq:eg-dual-beta-p}, they are both optimal (i.e., attaining the optima $z^*$ and $w^*$ respectively) if and only if
-		\begin{align}
-			& \left \langle p^*, \ones - \sum_i x^*_i\right \rangle = 0, \label{eq:mkt-clear} \\
-			& \langle v_i, x_i^*\rangle = u^*_i :=  \frac{B_i}{\beta^*_i}, \ \forall\, i,	\label{eq:u*=B/beta*} \\
-			& \langle p^* - \beta^*_i v_i, x^*_i \rangle = 0,\ \forall\, i. \label{eq:comp-slack-dual}
-		\end{align} \label{item:eg-KKT-iff}
+		\item KKT conditions: For $x^*$ feasible to \eqref{eq:eg-primal} and $(p^*, \beta^*)$ feasible to \eqref{eq:eg-dual-beta-p}, they are both optimal (i.e., attaining the optima $z^*$ and $w^*$ respectively) if and only if \label{item:eg-KKT-iff}
 	% \item Suppose $x^*$ is feasible to \eqref{eq:eg-primal}, $(p^*, \beta^*)$ is feasible to \eqref{eq:eg-dual-beta-p} and \eqref{eq:mkt-clear}, \eqref{eq:u*=B/beta*} hold. Then, $x^*$ and $(p^*, \beta^*)$ are optimal to \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. Meanwhile, $C + z^* = w^*$. \label{item:eg-KKT-backward-onlyif}
-	\end{enumerate} \label{lemma:weak-duality}
+	\end{enumerate*} 
+	\begin{align}
+		\left \langle p^*, \ones - \sum_i x^*_i\right \rangle = 0, \ \ 
+		\langle v_i, x_i^*\rangle = u^*_i :=  \frac{B_i}{\beta^*_i}, \ \forall\, i, \ \ 
+		\langle p^* - \beta^*_i v_i, x^*_i \rangle = 0,\ \forall\, i.
+		\label{eq:kkt-mkt-clear-etc}
+	\end{align} 
+	\label{lemma:weak-duality}
 \end{lemma}
-Thus, we see that in spite of the general difficulties with duality theory in infinite dimensions, we have shown that \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p} behave like duals of each other: strong duality holds, and KKT conditions hold if and only if a pair of feasible solutions are both optimal (see, e.g., \citet[\S 5.2]{nisan2007algorithmic} for the finite-dimensional counterparts). 
-Using Lemma \ref{lemma:weak-duality}, we can show the following theorem, which is an expanded version of Part \ref{item:eg-equi-iff-opt} of Theorem~\ref{thm:eg-equi-opt-combined} regarding the equivalence of market equilibrium and optimality w.r.t. the convex programs.
+Thus, in spite of the general difficulties with duality theory in infinite dimensions, \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p} behave like duals of each other: strong duality holds, and KKT conditions hold if and only if a pair of feasible solutions are both optimal. In \eqref{eq:kkt-mkt-clear-etc}, the first condition is market clearance; the second condition says each buyer $i$ pays $\beta^*_i$ for each unit of utility she receives. As such, $\beta^*$ is known as the (equilibrium) \emph{utility price}. Since $p^* \geq \beta^*_i v_i$, we know that under prices $p^*$, buyer $i$ must pay at least $\beta^*_i$ for each unit of utility. Using Lemma \ref{lemma:weak-duality}, we can show the following theorem, which is an expanded version of Part \ref{item:eg-equi-iff-opt} of Theorem~\ref{thm:eg-equi-opt-combined} regarding the equivalence of market equilibrium and optimality w.r.t. the convex programs.
 \begin{theorem}
 	Assume $x^*$ and $(p^*, \beta^*)$ are optimal solutions of \eqref{eq:eg-primal} and \eqref{eq:eg-dual-beta-p}, respectively. 
 	Then $(x^*, p^*)$ is a ME, $\langle p^*, x^*_i \rangle = B_i$ for all $i$, and the equilibrium utility of buyer $i$ is $u^*_i = \langle v_i, x^*_i \rangle = \frac{B_i}{\beta^*_i}$. 
@@ -96,25 +96,21 @@ Using Lemma \ref{lemma:weak-duality}, we can show the following theorem, which i
 \end{theorem}
 % The above corollary ensures that we can construct an optimal solution of \eqref{eq:eg-dual-beta-p} from a pure optimal solution of \eqref{eq:eg-primal}, which satisfy all predicates in Lemma~\ref{lemma:weak-duality}.
 % The connection of Corollary~\ref{cor:eg-pure-solution-gives-strong-duality} with the notion of fair division in \cite{weller1985fair} will be discussed latter (see Corollary~\ref{cor:Bi-fair-division-weller}). 
-We list some direct consequences of the results we have obtained so far. Below is a direct consequence of Theorem~\ref{thm:eg-gives-me} and Part \ref{item:eg-weak-duality} of Lemma~\ref{lemma:weak-duality} on the structural properties of a market equilibrium.
+We list some direct consequences of the results we have obtained so far. First, we give a direct consequence of Theorem~\ref{thm:eg-gives-me} and Part \ref{item:eg-weak-duality} of Lemma~\ref{lemma:weak-duality} on the structural properties of a market equilibrium; next, given a pure optimal solution $\{\Theta_i\}$ of \eqref{eq:eg-primal}, we can construct the (a.e.-unique) optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}.
 \begin{corollary}
 	Let $(x^*, p^*)$ be a ME. 
-	Then, $x^*$ and $(p^*, \beta^*)$, where $\beta^*_i := \frac{B_i}{\langle v_i, x^*_i\rangle}$, satisfy \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}. In particular, \eqref{eq:comp-slack-dual} shows that a buyer's equilibrium allocation $x^*_i$ must be zero a.e. outside its ``winning'' set of items $\{p^* = \beta^*_i v_i \}$.
+	Then, $x^*$ and $(p^*, \beta^*)$, where $\beta^*_i := \frac{B_i}{\langle v_i, x^*_i\rangle}$, satisfy \eqref{eq:kkt-mkt-clear-etc}. In particular, $\langle p^*, \ones - \sum_i x^*_i \rangle = 0$ shows that a buyer's equilibrium allocation $x^*_i$ must be zero a.e. outside its ``winning'' set of items $\{p^* = \beta^*_i v_i \}$.
 	\label{cor:me-structiral-properties}
 \end{corollary}
 % \yuan{
-	The equilibrium $\beta^*$, or equivalently, the second part of the unique optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}), is often known as the (equilibrium) \emph{utility price}, that is, $\beta^*_i = \frac{B_i}{u^*_i}$ is the price each buyer $i$ pays for a unit of utility. The above corollary shows that, at equilibrium, each buyer $i$ only gets items where its $\beta^*_i v_i$ is the maximum among all buyers, that is, where $p^* = \beta^*_i v_i$. 
-	In other words, buyer $i$ only pays for items with the lowest price per unit utility, or equivalently, the most utility per unit price.
-	Since $p^* \geq \beta^*_i v_i$, under prices $p^*$, buyer $i$ must pay at least $\beta^*_i$ for each unit of utility.
 	% Intuitively, if there is a subset $A\subseteq\Theta_i$ on which $p^* > \beta^*_i v_i$, then, items in $A$ bring utility $v_i(A)$ but incur cost $p^*(A)$, with a ratio $\frac{p^*(A)}{v_i(A)} > \beta^*_i$.
-Given a pure optimal solution $\{\Theta_i\}$ of \eqref{eq:eg-primal}, we can construct the (a.e.-unique) optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}. In particular, such a construction ensures feasibility of $(p^*, \beta^*)$. 
 \begin{corollary}
 	Let $\{\Theta_i\}$ be a pure optimal solution of \eqref{eq:eg-primal}, $u^*_i = v_i(\Theta_i)$ and $\beta^*_i = \frac{B_i}{u^*_i}$.
 	\begin{enumerate*}[label=(\alph*)]
 		\item For each $i$, we have $\beta^*_i v_i \geq \beta^*_j v_j$ a.e. for all $j\neq i$ on $\Theta_i$. \label{item:thm-eg-pure-solution-gives-dual-feas}
 		\item Let $p^* := \max_i \beta^*_i v_i$. Then, $p^*(A) = \sum_i \beta^*_i v_i(A\cap \Theta_i)$ for any measurable set $A\subseteq \Theta$.
 		\label{item:thm-eg-pure-solution-gives-p*}
-		\item The constructed $(p^*, \beta^*)$ is an optimal solution of \eqref{eq:eg-dual-beta-p} and satisfies \eqref{eq:mkt-clear}-\eqref{eq:comp-slack-dual}. 
+		\item The constructed $(p^*, \beta^*)$ is an optimal solution of \eqref{eq:eg-dual-beta-p} and satisfies \eqref{eq:kkt-mkt-clear-etc}. 
 		\label{item:thm-eg-pure-solution-gives-dual-opt}
 	\end{enumerate*}
 	 \label{cor:eg-pure-solution-gives-strong-duality}
