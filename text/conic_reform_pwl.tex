@@ -1,17 +1,17 @@
 \section{Optimization for Piecewise Linear Valuations} \label{sec:convex-opt-for-pwl}
-In this section we show that for the case where the item space is $\Theta = [0,1]$ and the buyers' valuations $v_i$ are piecewise linear functions on $[0,1]$, it is possible to reformulate our infinite-dimensional convex program \eqref{eq:eg-primal} as a finite-dimensional convex conic program. 
+In this section we show that for the case where the item space is $\Theta = [0,1]$ and the buyers' valuations $v_i$ are piecewise linear (${\rm p.w.l.}$) functions on $[0,1]$, it is possible to reformulate our infinite-dimensional convex program \eqref{eq:eg-primal} as a finite-dimensional convex conic program. 
 This finite-dimensional program can be solved efficiently using off-the-shelf interior-point methods.
 Based on the optimal solution of this reformulation, an approximate pure equilibrium allocation can be constructed easily.
-This yields a highly practical approach for solving the case of piecewise linear valuations.
+This yields a highly practical approach for solving the case of ${\rm p.w.l.}$ valuations.
 Unfortunately, the current theory of interior-point methods does not allows us to immediately conclude that we have a polynomial-time algorithm.
 To complement our practical convex conic program, we use the ellipsoid method to 
 show that there exists a theoretical algorithm that finds an $\epsilon$-approximate pure equilibrium allocation in time polynomial in $n$, $K$ and $\log \frac{\kappa}{\epsilon}$, where $\kappa$ is the inverse of the smallest buyer budget $\min_i B_i$.
 
 As discussed in \S\ref{sec:equi-and-dual}, when all $B_i$ are equal we are in the CEEI case, and  a pure equilibrium allocation in which each buyer gets a union of intervals is a fair division in the sense of \citep{weller1985fair}. 
-Hence, our method gives a polynomial-time algorithm for finding a fair division of the unit interval under piecewise linear valuations.
+Hence, our method gives a polynomial-time algorithm for finding a fair division of the unit interval under ${\rm p.w.l.}$ valuations.
 
-The key to our tractable convex conic program is to show that when the buyers' valuations $v_i$ are piecewise linear and $\Theta = [0,1]$, the set of feasible utilities $U(v, [0,1])$ defined in Lemma~\ref{lemma:U-convex-compact} can be represented by a small number of simple linear and quadratic constraints with a small number of auxiliary variables.
-The first subsection shows this result for a type of normalized linear valuations on the $[0,1]$ interval. The second subsection extends the characterization to general intervals $[a,b]$ and unnormalized linear valuations, which is necessary for handling piecewise linear valuations later. 
+The key to our tractable convex conic program is to show that when the buyers' valuations $v_i$ are ${\rm p.w.l.}$ and $\Theta = [0,1]$, the set of feasible utilities $U(v, [0,1])$ defined in Lemma~\ref{lemma:U-convex-compact} can be represented by a small number of simple linear and quadratic constraints with a small number of auxiliary variables.
+The first subsection shows this result for a type of normalized linear valuations on the $[0,1]$ interval. The second subsection extends the characterization to general intervals $[a,b]$ and unnormalized linear valuations, which is necessary for handling ${\rm p.w.l.}$ valuations later. 
 The next two subsections show our practical and theoretical algorithmic results, respectively, followed by numerical examples and experiments.
 
 \subsection{Characterization of the set $U(v, [0,1])$ under linear $v_i$} \label{subseq:charact-linear-vi-[0,1]}
@@ -27,7 +27,7 @@ The names ``eval'' (evaluation of the utility of a given interval) and ``cut'' (
 
 \paragraph{Geometry of a pure equilibrium allocation.} 
 Recall that, by \cref{cor:me-structiral-properties}, if $\{\Theta_i\}$ is a pure equilibrium allocation, then it must hold that $\Theta_i \subseteq \{p^* = \beta^*_i v_i \}$. 
-When the valuations $v_i$ are linear functions on $[0,1]$, $p^*$ must be a piecewise linear (p.w.l.) function with at most $n$ pieces. 
+When the valuations $v_i$ are linear functions on $[0,1]$, $p^*$ must be a ${\rm p.w.l.}$ (${\rm p.w.l.}$) function with at most $n$ pieces. 
 We will use this to show that, in the case of linear valuations, a pure equilibrium allocation only needs to consist of $(n-1)$ cuts on $[0,1]$, resulting in $n$ intervals, one for each buyer. 
 If we are able to compute the equilibrium utilities $u^*_i$ and an \emph{ordering} of the buyers specifying who gets the first interval starting at $0$, who gets the second interval, and so on, then an equilibrium allocation reduces to performing at most $n$ ``cut'' operations to find the exact endpoints of these intervals. 
 Such an ordering of the buyers at equilibrium can in fact be determined \emph{a priori}. 
@@ -47,9 +47,9 @@ We also assume that the valuations $v_i$ are distinct. Due to normalization, thi
 	$2 \geq d_1 > \dots > d_n \geq 0$.
 	\label{assump:linear-distinct-decreasing-[0,1]}
 \end{assumption}
-The upper and lower bounds above are due to nonnegativity: $v_i(0) \geq 0$ and $v_i(1) \geq 0$ imply $d_i \geq 0$ and $0 \leq c_i + d_i = 2(1-d_i) + d_i \Rightarrow d_i \leq 2$. The following lemma shows that, under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]}, the equilibrium prices $p^*$ are p.w.l. with exactly $n$ linear pieces, corresponding to intervals that are the pure equilibrium allocations to the buyers.
+The upper and lower bounds above are due to nonnegativity: $v_i(0) \geq 0$ and $v_i(1) \geq 0$ imply $d_i \geq 0$ and $0 \leq c_i + d_i = 2(1-d_i) + d_i \Rightarrow d_i \leq 2$. The following lemma shows that, under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]}, the equilibrium prices $p^*$ are ${\rm p.w.l.}$ with exactly $n$ linear pieces, corresponding to intervals that are the pure equilibrium allocations to the buyers.
 \begin{lemma}
-	Under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]} and budgets $B_i > 0$, the equilibrium prices $p^* = \max_i \beta^*_i v_i$ are piecewise linear with exactly $n$ linear pieces.
+	Under Assumption~\ref{assump:linear-distinct-decreasing-[0,1]} and budgets $B_i > 0$, the equilibrium prices $p^* = \max_i \beta^*_i v_i$ are ${\rm p.w.l.}$ with exactly $n$ linear pieces.
 	The (unique) breakpoints of the linear pieces $0 = a^*_0 < a^*_1 < \dots < a^*_n = 1$ induce a pure allocation: buyer $i$ receives $\Theta_i = [a^*_{i-1}, a^*_i]$, $i\in [n]$. This allocation is the unique equilibrium allocation.
 	\label{lemma:all-linear-equilibrium-geometry}
 \end{lemma}	
@@ -238,7 +238,7 @@ In more detail, Lemma~\ref{lemma:all-linear-equilibrium-geometry} shows that we 
 This can be done by directly dividing $[l,h]$ in the order of $\sigma$ according to the scaled intercepts $\hat{d}_i$.
 % Alternatively, one can also normalized $v_i$ directly on $[l,h]$, that is, $\tilde{c}_i = c_i / v_i([l,h])$, $\tilde{d}_i = d_i/v_i([l,h])$, $\tilde{v}_i(\theta) = \tilde{c}_i \theta + \tilde{d}_i$, $\theta\in [l,h]$, $\tilde{v}_i([l,h])=1$ and sort the buyers via $\tilde{v}_i(l) = \tilde{c}_i l + \tilde{d}_i$, which gives the same permutation $\sigma$ (up to buyers having proportional valuations).
 
-% Next, we give an example that illustrates the representation of $U(v, [l,h])$ in Theorem~\ref{thm:U-conic-rep-general-vi} as well as the execution of Algorithm~\ref{alg:interval-partition-given-feasible-u}. It is taken from Example~\ref{ex:pwl-numerical} in \S~\ref{subsec:numerical-examples} for recovering pure equilibrium allocations: the interval $[l,h]$ corresponds to the second predefined interval $[a_1, a_2]$ of the piecewise linear valuations $v_i$ in that example.
+% Next, we give an example that illustrates the representation of $U(v, [l,h])$ in Theorem~\ref{thm:U-conic-rep-general-vi} as well as the execution of Algorithm~\ref{alg:interval-partition-given-feasible-u}. It is taken from Example~\ref{ex:pwl-numerical} in \S~\ref{subsec:numerical-examples} for recovering pure equilibrium allocations: the interval $[l,h]$ corresponds to the second predefined interval $[a_1, a_2]$ of the ${\rm p.w.l.}$ valuations $v_i$ in that example.
 % \begin{example}
 % 	[Representation of $U(v,{[l,h]})$ and Algorithm~\ref{alg:interval-partition-given-feasible-u}]
 % 	Consider $n=4$ buyers with valuations $v_i(\theta) = c_i \theta + d_i\geq 0$, $\theta\in [l, h] = [0.3741, 0.8147]$. Here, the coefficients $c_i$ and $d_i$ of the valuations are
@@ -279,9 +279,9 @@ This can be done by directly dividing $[l,h]$ in the order of $\sigma$ according
 % \end{example} 
 
 \subsection{Convex conic reformulation of \eqref{eq:eg-primal}} \label{subsec:convex-conic-reform-of-EG-pwl}
-We now show how to handle the general case of piecewise linear valuations on $[0,1]$.
+We now show how to handle the general case of ${\rm p.w.l.}$ valuations on $[0,1]$.
 We first give a convex program whose variables are the utilities buyers receive from the subintervals defined by their linear pieces.
-Formally, the item space is $\Theta = [0,1]$ and each $v_i$ is a p.w.l. valuation on $[0,1]$. Let the union of their breakpoints be $a_0 = 0 \leq a_1 \leq \dots \leq a_{K-1} \leq a_K = 1$. 
+Formally, the item space is $\Theta = [0,1]$ and each $v_i$ is a ${\rm p.w.l.}$ valuation on $[0,1]$. Let the union of their breakpoints be $a_0 = 0 \leq a_1 \leq \dots \leq a_{K-1} \leq a_K = 1$. 
 For each buyer $i\in [n]$ and each subinterval $k\in [K]$, $v_i$ is linear on $[a_{k-1}, a_k]$, i.e., 
 $v_i(\theta) = c_{ik} \theta + d_{ik},\ \ \theta \in [a_{k-1}, a_k]$.
 For each $k$, let the set of feasible utilities with item space $[a_{k-1},a_k]$ and valuations $v_i$ be $U_k := U(v, [a_{k-1}, a_k])$,
@@ -333,15 +333,13 @@ For general convex optimization beyond self-scaled cones, there exist bounds on 
 % For our purpose, it remains a challenge to bound this constant using the market data $B_i$, $c_{ik}$, $d_{ik}$ as well.  
 % Furthermore, we point out that mature interior-point optimization software rarely implements all components of a theoretically-convergent method. 
 % Instead, highly sophisticated numerical linear algebra methods and stepsizing heuristics are used to speed up and stabilize the computation of search directions (see e.g. \citep{toh2012implementation,sturm1999using}). These techniques, necessary for practically efficient implementations, often invalidate the theoretical complexity guarantees \citep{dahl2019primal,skajaa2015homogeneous}. 
-% In conclusion, at this time one cannot derive polynomial-time solvability of the piecewise linear problem directly from our conic reformulation in~\eqref{eq:conic-std-form}.
+% In conclusion, at this time one cannot derive polynomial-time solvability of the ${\rm p.w.l.}$ problem directly from our conic reformulation in~\eqref{eq:conic-std-form}.
 Nevertheless, we remark that solving the reformulation~\eqref{eq:conic-std-form} of~\eqref{eq:convex-prog-u(ik)} using industry-grade interior-point optimization software (such as Mosek) is a highly efficient and stable approach for computing a pure equilibrium allocation: Mosek easily solves problems with hundreds of variables and constraints.
 After computing an optimal solution $(u^*_{ik})$ of \eqref{eq:convex-prog-u(ik)} using Mosek, a pure allocation that attains these utilities can easily be found with Algorithm~\ref{alg:interval-partition-given-feasible-u}. %to divide each $[a_{k-1}, a_k]$ into subintervals among the buyers.
 
 \subsection{A polynomial-time ellipsoid algorithm} \label{subsec:compute-pure-eq-alloc-poly-time}
-Due to the problems mentioned in the previous section regarding polynomial-time solvability of conic programs involving exponential cones, we next investigate polynomial-time solvability of our problem via alternative methods.
-The results in this section are primarily of theoretical interest; in practice solving the conic program from the previous section using an interior-point solver is extremely efficient and preferable.
-
-We will show that, by running the ellipsoid method on \eqref{eq:convex-prog-u(ik)}, we can finds an $\epsilon$-approximate pure equilibrium allocation in $\poly\left(n,k,\log \frac{1}{\epsilon}\right)$ time. 
+We next investigate theoretical polynomial-time solvability of our problem.
+The results in this section are primarily of theoretical interest; in practice solving the conic program from the previous section using an interior-point solver is extremely efficient and preferable. By running the ellipsoid method on \eqref{eq:convex-prog-u(ik)}, we can finds an $\epsilon$-approximate pure equilibrium allocation in $\poly\left(n,k,\log \frac{1}{\epsilon}\right)$ time. 
 Recall our assumptions that $\|B\|_1 = 1$ and $v_i([0,1]) = 1$ for all $i$; the unit interval is divided into $K$ subintervals by breakpoints $a_0 = 0 < a_1 < \dots < a_K = 1$; for each $i$, buyer $i$'s valuation is $v_i(\theta) = c_{ik}\theta+d_{ik}$ on the $k$th subinterval $[a_{k-1}, a_k]$. We leverage the time complexity results regarding ellipsoid method in \citep[\S 4.1.4]{ben2019lectures} to show that we can solve our problem in polynomial time.
 We refer the readers to the survey \citep{bland1981ellipsoid} for the history of development of ellipsoid methods and further references.
 Using~\cite[Theorem 4.1.2]{ben2019lectures}, we establish the following guarantees regarding solving \eqref{eq:convex-prog-u(ik)}.
@@ -362,27 +360,26 @@ This aligns with our intuition about a ``second-order'' method such as an interi
 In contrast, the running time of a first-order method---such as projected gradient descent---usually scales polynomially in the problem's condition number.
 
 \subsection{Numerical examples and experiments} \label{subsec:numerical-examples}
-To round out this section, we describe two specific examples of computing a pure equilibrium over $[0,1]$ given linear and piecewise linear valuations, respectively. 
-Then, we run our proposed method end-to-end on randomly generated large instances to demonstrate its scalability. 
+To round out this section, we describe a specific example of computing a pure equilibrium over $[0,1]$ given ${\rm p.w.l.}$ valuations. 
+Then, we run our algorithm end-to-end on randomly generated large instances to demonstrate its scalability. 
 % More details can be found in the Appendix. 
 
-\begin{example}
-	[Linear $v_i$]
-	\normalfont
-	Let there be four buyers with budgets $B = (0.1, 0.3, 0.2, 0.4)$ and normalized linear $v_i$ with intercepts $d = (1.2, 0.6, 0.3, 1.9) \ \Rightarrow \ c = (-0.4,  0.8,  1.4, -1.8)$ (since $v_i$ are normalized). 
-	Ordering the buyers by decreasing intercept gives $\sigma = (4, 1, 2, 3)$. 
-	Figure~\ref{fig:n-linear} illustrates the equilibrium prices $p^*$ and the scaled valuation $\beta^*_i v_i$ for each buyer. Buyer $4$ receives the leftmost interval $[0, 0.3713]$, buyer $1$ receives $[0.3713, 0.4921]$, and so on. 
-	For each buyer, its allocated interval $[l_i,h_i]$ is precisely the segment where it ``wins'', i.e., $[l_i, h_i] = \{p^* = \beta^*_i v_i\}$. 
-	Since all buyers have distinct $d_i$ and positive budgets, this is the unique pure allocation. 
-	\label{ex:linear-numerical}
-\end{example}
+% \begin{example}
+% 	[Linear $v_i$]
+% 	\normalfont
+% 	Let there be four buyers with budgets $B = (0.1, 0.3, 0.2, 0.4)$ and normalized linear $v_i$ with intercepts $d = (1.2, 0.6, 0.3, 1.9)$ ($c_i$ are determined due to normalized $v_i$). 
+% 	Ordering the buyers by decreasing intercept gives $\sigma = (4, 1, 2, 3)$. 
+% 	Figure~\ref{fig:n-linear} illustrates the equilibrium prices $p^*$ and the scaled valuation $\beta^*_i v_i$ for each buyer. Buyer $4$ receives the leftmost interval $[0, 0.3713]$, buyer $1$ receives $[0.3713, 0.4921]$, and so on. 
+% 	For each buyer, its allocated interval $[l_i,h_i]$ is precisely the segment where it ``wins'', i.e., $[l_i, h_i] = \{p^* = \beta^*_i v_i\}$. 
+% 	Since all buyers have distinct $d_i$ and positive budgets, this is the unique pure allocation. 
+% 	\label{ex:linear-numerical}
+% \end{example}
 
-
 \begin{example}
-	[Piecewise linear $v_i$]
+	[${\rm p.w.l.}$ $v_i$ on the unit interval]
 	\normalfont 
-	Let there be $n=4$ buyers, each with piecewise linear valuations $v_i$ with $K = 3$ pieces. Each buyers' linear pieces share endpoints $0 = a_0 < a_1 < a_2 < a_3 = 1$, with $a_1 = 0.3741$, $a_2 = 0.8147$. 
-	Solving the convex program \eqref{eq:convex-prog-u(ik)} gives equilibrium utilities $u^*_{ik}$ for all $i,k$, where $u^*_{ik}$ is the amount of utility buyer $i$ gets from segment $[a_{k-1}, a_k]$ (which can be $0$ for some buyer-segment pairs). 
+	Let there be $n=4$ buyers, each with ${\rm p.w.l.}$ valuations $v_i$ with $K = 3$ pieces. Each buyers' linear pieces share endpoints $0 = a_0 < a_1 < a_2 < a_3 = 1$, with $a_1 = 0.3741$, $a_2 = 0.8147$. 
+	Solving the convex program \eqref{eq:convex-prog-u(ik)} gives equilibrium utilities $u^*_{ik}$ for all $i,k$, where $u^*_{ik}$ is the amount of utility buyer $i$ gets from segment $[a_{k-1}, a_k]$ (which can be $0$ for some buyers on some segments). 
 	Similarly to the linear case above, we divide each segment  $[a_{k-1}, a_k]$ among the buyers according to their $u^*_{ik}$ and their ordering according $\hat{d}_i$  on interval $k$ (c.f. Lemma~\ref{lemma:all-linear-represent-any-u}).
 	%Here, since it is possible that $u^*_{ik} = 0$, a buyer may not receive an empty interval from $[a_{k-1}, a_k]$. 
 	In the final pure allocation, each buyer $i$ gets a union of at most $K$ intervals, one from each $[a_{k-1}, a_k]$, which is a subset of its winning set $\{p^* = \beta^*_i v_i\}$. 
@@ -392,23 +389,38 @@ Then, we run our proposed method end-to-end on randomly generated large instance
 	\label{ex:pwl-numerical}
 \end{example}
 
+% \begin{figure}
+% \begin{minipage}{0.48\textwidth}
+% 	\centering
+% 	\vspace{-25pt}
+% 	\includegraphics[scale=0.5]{codes/n-linear.pdf}
+% 	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $4$ buyers with linear (normalized) $v_i$ on $[0,1]$ (Example \ref{ex:linear-numerical}). 
+% 	The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
+% 	}
+% 	\label{fig:n-linear}
+% \end{minipage}\hfill
+% \begin{minipage}{0.48\textwidth}
+% 	\centering
+% 	\includegraphics[scale=0.5]{codes/n-pwl.pdf}
+% 	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $n=4$ buyers with ${\rm p.w.l.}$ $v_i$ on $[0,1]$ (Example \ref{ex:pwl-numerical}). The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
+% 	Note that each $v_i$, and hence $p^*$, are ${\rm p.w.l.}$ They are not necessarily continuous.}
+% 	\label{fig:n-pwl}
+% \end{minipage}
+% \end{figure}
+
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[scale=0.5]{codes/n-pwl.pdf}
+% 	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $n=4$ buyers with ${\rm p.w.l.}$ $v_i$ on $[0,1]$ (Example \ref{ex:pwl-numerical}). The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
+% 	Note that each $v_i$, and hence $p^*$, are ${\rm p.w.l.}$ They are not necessarily continuous.}
+% 	\label{fig:n-pwl}
+% \end{figure}
+
 \begin{figure}
-\begin{minipage}{0.48\textwidth}
-	\centering
-	\vspace{-25pt}
-	\includegraphics[scale=0.5]{codes/n-linear.pdf}
-	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $4$ buyers with linear (normalized) $v_i$ on $[0,1]$ (Example \ref{ex:linear-numerical}). 
-	The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
-	}
-	\label{fig:n-linear}
-\end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
-	\centering
-	\includegraphics[scale=0.5]{codes/n-pwl.pdf}
-	\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $n=4$ buyers with piecewise linear $v_i$ on $[0,1]$ (Example \ref{ex:pwl-numerical}). The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.
-	Note that each $v_i$, and hence $p^*$, are p.w.l. They are not necessarily continuous.}
-	\label{fig:n-pwl}
-\end{minipage}
+	\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,center},capbesidewidth=3in}}]{figure}[\FBwidth]
+	{\caption{The equilibrium prices $p^*$ and $\beta^*_i v_i$ for $n=4$ buyers with ${\rm p.w.l.}$ $v_i$ on $[0,1]$ (Example \ref{ex:pwl-numerical}). The stars denote $p^*$, whose linear pieces correspond to the winning segments for each buyer.}
+	\label{fig:n-pwl} }
+	{ \includegraphics[scale=0.5]{codes/n-pwl.pdf} }
 \end{figure}
 
 \paragraph{Large-scale experiments.} 
@@ -416,9 +428,10 @@ Next, we generate random instances with varying values of $n$ and $K$.
 For each $(n,K)$ combination and each random seed value in $\{ 1, \dots, 8\}$, we perform the conic reformulation, solve the resulting convex program using Mosek and construct pure allocations based on the solution $(u^*_{ik})$.
 For each $(n,K)$ combination, we record the mean running time and the standard error.
 The results are presented in Table \ref{table:running-times-n-K-seeds}. 
-As can be seen, for fixed $n$, the running time scales approximately linearly in $K$, and similarly running time scales linearly with $n$ for a fixed $K$. Thus our model should be scalable to very large instances.
-We remark that, in the experiment, around $2/3$ of the running time arises from ``model building'', that is, constructing the sparse matrices and interacting with Mosek through its API, even after writing a highly vectorized implementation. 
-Only around $1/3$ of the time arises from ``optimization'', that is, running the interior-point method through \texttt{Model.solve()}. The time for constructing pure allocations from $(u^*_{ik})$ is negligible compared to model building and computation. As an additional note for practitioners, we also tried the CVXPY modeling language: it was vastly slower at reformulating the model before calling Mosek.
+As can be seen, the running time scales approximately linearly in both $n$ and $K$. Thus our model should be scalable to very large instances.
+We remark that, in the experiment, around $2/3$ of the running time arises from ``model building'', that is, constructing the sparse matrices and interacting with Mosek through its API, even with a highly vectorized implementation.
+Only around $1/3$ of the time arises from ``optimization'', that is, running the interior-point method through \texttt{Model.solve()}. 
+The time for constructing pure allocations from $(u^*_{ik})$ is negligible compared to model building and computation. As an additional note for practitioners, we also tried the CVXPY modeling language: it was vastly slower at reformulating the model before calling Mosek.
 
 % \yuan{Less significant digits.}
 \begin{table}

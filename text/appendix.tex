@@ -3,32 +3,14 @@
 
 \subsection{Proofs from Section~\ref{sec:equi-and-dual}}
 	\noindent\textbf{Proof of Lemma~\ref{lemma:U-convex-compact}}
-	First, we state a lemma due to \citet[Theorems 1 and 4]{dvoretzky1951relations}. Here, we assume that there is an underlying $\sigma$-algebra $\mathcal{M}$ on $\Theta$ corresponding to all measures $\mu_i$.
-	\begin{lemma}
-		Let $\mu_i$ be finite measures on $\Theta$, $i\in m$. 
-		Let 
-		\begin{align*}
-			& \mathcal{X} = \left\{ (x_1, \dots, x_p): \sum_j x_j = \ones, \, \almeve,\, \text{each $x_j$ is a nonnegative measurable function on $\Theta$} \right\}, \\
-			& \mathcal{S} = \left\{ (\Theta_1, \dots, \Theta_p) \in \mathcal{M}^p: \text{ $\Theta_i \cap \Theta_j = \emptyset$ for all $i\neq j$, $\cup_i \Theta_i = \Theta$}\right\},\\
-			& \mathcal{U} = \left\{ u\in \RR^{m\times p}: u_{ij} = \int_{\Theta} x_j d\mu_i,\, (x_1, \dots, x_p)\in\mathcal{X} \right\}, \\
-			& \mathcal{U}' = \left\{ u\in \RR^{m\times p}: u_{ij} = \mu_i(\Theta_j),\, (\Theta_1, \dots, \Theta_p) \in \mathcal{S} \right\}.
-		\end{align*}
-		The set $\mathcal{U}$ is convex and compact. Furthermore, if each $\mu_i$ is atomless, then, $\mathcal{U}' = \mathcal{U}$.
-		\label{lemma:dvo-51}
-	\end{lemma}
-
-	Next, we prove Lemma \ref{lemma:U-convex-compact}.
 	Note that $v_i$ as measures are atomless, since they are absolutely continuous w.r.t. the Lebesgue measure on $\Theta\subseteq \RR^d$.
-	Define 
-	\begin{align*}
-		& \bar{U} = \left\{ u \in \RR^{n\times (n+1)}: u_{ij} = \langle v_i, x_j\rangle,\, (i,j)\in [n]\times [n+1],\, x_i \in L^\infty(\Theta)_+\, \sum_{i=1}^{n+1} x_i = \ones \right\}, \\ 
-		& \bar{U}' = \left\{ u \in \RR^{n\times (n+1)}: u_{ij} = v_i(\Theta_j),\, (i,j)\in [n]\times [n+1],\, \textnormal{$\Theta_i\subseteq \Theta$ measurable and a.e.-disjoint}\right\}.
-	\end{align*}
-	By Lemma \ref{lemma:dvo-51} (taking $m=n$ and $p=n+1$), we have $\bar{U} = \bar{U}'$
-	and it is a convex and compact set in $\RR^{n(n+1)}$.
+	Define\\
+	$\bar{U} = \left\{ u \in \RR^{n\times (n+1)}: u_{ij} = \langle v_i, x_j\rangle,\, (i,j)\in [n]\times [n+1],\, x_i \in L^\infty(\Theta)_+\, \sum_{i=1}^{n+1} x_i = \ones \right\}$, \\
+	$ \bar{U}' = \left\{ u \in \RR^{n\times (n+1)}: u_{ij} = v_i(\Theta_j),\, (i,j)\in [n]\times [n+1],\, \textnormal{$\Theta_i\subseteq \Theta$ measurable, a.e.-disjoint}\right\}$.
+	By \citet[Theorems 1 and 4]{dvoretzky1951relations}, (taking $m=n$ and $p=n+1$) we know that $\bar{U} = \bar{U}'$ and it is a convex and compact set in $\RR^{n(n+1)}$.
 	Therefore, their (Euclidean) projections on to the $n$ dimensions corresponding to $u_{ii}$, $i\in [n]$ (corresponding to the utility values $u_i$) are also equal, that is, 
 	$U = U'$.
-	The set $U=U'$ is convex and compact (in $\RR^n$) since projection preserves convexity and compactness in a finite-dimensional Euclidean space.
+	The set $U=U'$ is convex and compact since projection preserves convexity and compactness in a finite-dimensional Euclidean space.
 
 	\smallskip\noindent\textbf{Proof of Theorem~\ref{thm:eg-equi-opt-combined}}
 
@@ -58,7 +40,6 @@
 	Therefore, we can restrict $\beta$ inside a closed interval without affecting the infimum:
 	$ \inf_{\beta\in \RR_+^n } \psi(\beta) = \inf_{\beta\in [\ubar{\beta}, \bar{\beta}] }\psi(\beta)$. 
 	The right-hand side is the infimum of a continuous function on a compact set. Therefore, the infimum is attained at some $\beta^* \in [\ubar{\beta}, \bar{\beta}]$. Clearly, $\beta^* > 0$. It is unique since $\psi$ is strictly convex on $[\ubar{\beta}, \bar{\beta}]$.
-	
 	Finally, when solving \eqref{eq:eg-dual-beta-p}, for any fixed $\beta$, the objective is clearly minimized at $p = \max_i \beta_i v_i \in L^1(\Theta)_+$. Therefore, we can eliminate $p$ in this way and obtain \eqref{eq:eg-dual-beta-1}. In other words, for the optimal solution $\beta^*$ of \eqref{eq:eg-dual-beta-1}, setting $p^* := \max_i \beta^*_i v_i$ gives an optimal solution $(p^*, \beta^*)$ of \eqref{eq:eg-dual-beta-p}, which is (a.e.) unique. 
 
 	\smallskip\noindent\textbf{Proof of Lemma~\ref{lemma:weak-duality}}
@@ -77,7 +58,7 @@
 		\sum_i B_i \log u_i  
 		& \leq \sum_i B_i \log u_i - \sum_i \beta_i (u_i - \langle v_i, x_i\rangle) - \left\langle p, \sum_i x_i - \ones \right\rangle \nonumber \\
 		& = \sum_i (B_i \log u_i - \beta_i u_i) - \sum_i \langle p - \beta_i v_i, x_i \rangle + \langle p, \ones \rangle \nonumber \\
-		& \leq \sum_i \left(B_i \log \frac{B_i}{\beta_i} - \beta_i \frac{B_i}{\beta_i}\right) - \sum_i \langle p - \beta_i v_i, x_i \rangle + \langle p, \ones \rangle \nonumber \\
+		& \leq \sum_i \left(B_i \log \tfrac{B_i}{\beta_i} - \beta_i \tfrac{B_i}{\beta_i}\right) - \sum_i \langle p - \beta_i v_i, x_i \rangle + \langle p, \ones \rangle \nonumber \\
 		& \leq \sum_i (B_i \log B_i - B_i) + \langle p, \ones\rangle - \sum_i B_i \log \beta_i = \langle p, \ones\rangle - \sum_i B_i \log \beta_i - C,
 		\label{eq:eg-weak-duality-ineq-chain}
 	\end{align}
@@ -132,8 +113,8 @@
 	Since $u^*_i$ are the equilibrium utilities, by Lemma~\ref{lemma:weak-duality}, $\tilde{\beta}^*_i = \frac{B_i}{u^*_i}$ for all $i$. Hence, $\tilde{\beta}^* = \beta^*$ and therefore $\tilde{p} = \max_i \beta^*_i v_i$ a.e. 
 	Lemma~\ref{lemma:weak-duality} ensures that they satisfy \eqref{eq:kkt-mkt-clear-etc}. 
 	Then, since $\{\Theta_i\}$ is a pure allocation, we have $\Theta_i = \{ p^* = \beta^*_i v_i \}$ a.e. (i.e., the symmetric difference of $\Theta_i$ and $\{ p^* = \beta^*_i v_i \}$ has measure zero). 
-	Therefore, on each $\Theta_i$, we must have $p^* = \beta^*_i v_i \geq \beta^*_j v_j$ a.e. for any $j\neq i$. 
-	Using this fact, we have
+	Therefore, on each $\Theta_i$, we have $p^* = \beta^*_i v_i \geq \beta^*_j v_j$ a.e., $\forall\, j\neq i$. 
+	Hence, we have
 	$ p^*(A) = \sum_i p^*(A\cap \Theta_i) = \sum_i \beta^*_i v_i(A\cap \Theta_i)$
 	for any measurable set $A \subseteq \Theta$. 
 
@@ -253,22 +234,19 @@
 	to the inequalities in \eqref{eq:rep-U-u,z,w,a} without affecting the feasible region of $u$. 
 	Next, for each $i$, consider the set $S_i$ of $(z_i, w_i)$ satisfying the following inequalities together with an auxiliary variable $a_i$:
 	\begin{align}
-		\begin{cases}
-			z_i \leq \frac{c_i}{2}a_i^2 + d_i a_i \\
-			w_i \leq - \frac{c_{i+1}}{2} a_i^2 - d_{i+1} a_i
-		\end{cases}
-		,\  a_i \in [0,1], \ z_i \in [0,1], \, w_i\in [-1,0],\, z_i + w_i \geq 0. \label{eq:zi-wi-ai-zi+wi>=0}
+		z_i \leq \tfrac{c_i}{2}a_i^2 + d_i a_i, \
+		w_i \leq - \tfrac{c_{i+1}}{2} a_i^2 - d_{i+1} a_i,\ 
+		a_i, z_i \in [0,1], \, w_i\in [-1,0],\, z_i + w_i \geq 0. \label{eq:zi-wi-ai-zi+wi>=0}
 	\end{align}
 	
 	When $d_i = d_{i+1} \in [0,2]$, the parametric curve
-	$\Gamma_i = \left\{ \begin{bmatrix}
+	$\Gamma_i = \left\{ \left[\begin{smallmatrix}
 		\frac{c_i}{2} \alpha^2 + d_i \alpha \\
 		-\frac{c_{i+1}}{2} \alpha^2 - d_{i+1} \alpha
-	\end{bmatrix}: \alpha \in [0,1] \right\}$
+	\end{smallmatrix}\right]: \alpha \in [0,1] \right\}$
 	is simply the line segment $(0,0)$ to $(1,-1)$. Together with the last inequality in \eqref{eq:zi-wi-ai-zi+wi>=0}, we know that
 	$ S_i = \{ (z_i, w_i)\in [0,1]\times [-1, 0]: z_i + w_i = 0 \}$
 	is the same line segment.
-
 	When $d_i > d_{i+1}$, $\Gamma_i$ is part of a quadratic curve connecting $(0,0)$ and $(1,-1)$.
 	By the last inequality in \eqref{eq:range-quad-expr-a} (with $d_{i+1} - d_i < 0$ and $0<a_i<1$), $\Gamma_i$ lies on the top-right of the line segment between the two points.
 	In this case, the set $S_i$ is the region between $z_i = 0$, $w_i =-1$ and $\Gamma_i$. 
@@ -280,25 +258,25 @@
 	% 	\label{fig:Si-illustr}
 	% \end{figure}
 	Let the \emph{entire} curve $\bar{\Gamma}_i$ be the extension of $\Gamma_i$ with $\alpha\in [0,1]$ replaced by $\alpha \in \mathbb{R}$.	
-	It is a parabola, since it is the image of the standard parabola $\{ (\alpha, \alpha^2): \alpha\in \RR \}$ under a linear transformation given by $G_i$, i.e., $G_i \begin{bmatrix}
+	It is a parabola, since it is the image of the standard parabola $\{ (\alpha, \alpha^2): \alpha\in \RR \}$ under a linear transformation given by $G_i$, i.e., $G_i \left[\begin{smallmatrix}
 		\alpha \\ \alpha^2
-	\end{bmatrix} = \begin{bmatrix}
+	\end{smallmatrix}\right] = \left[\begin{smallmatrix}
 		\frac{c_i}{2} \alpha^2 + d_i \alpha \\
 		-\frac{c_{i+1}}{2}\alpha^2 - d_{i+1} \alpha
-	\end{bmatrix}$.
+	\end{smallmatrix}\right]$.
 	Hence, the convex hull $\conv(\bar{\Gamma}_i)$---the set of convex combinations of any finite number of points on $\bar{\Gamma}_i$---is also the image of the epigraph of the standard parabola $\mathcal{C}=\conv(\{ (\alpha, \alpha^2):\alpha\in \RR \})$ under the same linear transformation. By the convexity of $\conv(\bar{\Gamma}_i)$, we have
 	$S_i = \conv(\bar{\Gamma}_i) \cap T_i$,
 	where 
 	$T_i = \left\{ (z_i, w_i): z_i \in [0,1],\, w_i \in [-1,0],\, z_i + w_i \geq 0 \right\}$.
 	Therefore, the set $S_i$ can be represented by the linear constraints in $T_i$ and $ (z_i, w_i)\in G_i \mathcal{C}$. 
 	The latter can be expanded with two additional variables $s_i, t_i$, namely, 
-	$G_i \begin{bmatrix}
+	$G_i \left[\begin{smallmatrix}
 		s_i \\ t_i
-	\end{bmatrix} = \begin{bmatrix}
+	\end{smallmatrix}\right] = \left[\begin{smallmatrix}
 		z_i \\ w_i
-	\end{bmatrix},\ \begin{bmatrix}
+	\end{smallmatrix}\right],\ \left[\begin{smallmatrix}
 		s_i \\ t_i
-	\end{bmatrix} \in \mathcal{C}$.
+	\end{smallmatrix}\right] \in \mathcal{C}$.
 	Note that the above hold for both $d_{i+1} = d_i$ and $d_{i+1} > d_i$ (if $d_{i+1} = d_i$, then $G_i$ maps the parabola $\{(t_1, t_1^2): t_1 \in \RR \}$ into the straight line $\{ (z_i, w_i): z_i + w_i = 0 \}$ and the above characterization still works).
 	Substituting this and the constraints in $T_i$ into \eqref{eq:rep-U-u,z,w,a}, we obtain the desired set of constraints that characterize $u\in U(v, [0,1])$.
 	Here, we do not need to include $z_i + w_i \geq 0$ in the final set of constraints: this is the same as enlarging $S_i$ to contain $(z_i, w_i)$ such that $z_i + w_i < 0$, $(z_i, w_i)\in [0,1]\times [-1, 0]$, $(z_i, w_i) \in G_i \mathcal{C}$. Doing so not affect the feasible region of $u$.
@@ -422,7 +400,7 @@ Next, we describe the separation oracle. Given a solution $x^0$ (consisting of $
 	\item A quadratic constraint is violated, say, $(s_{ik}, t_{ik}) \notin \mathcal{C} = \{(t_1, t_2): t_1^2 \leq t_2\}$. By elementary calculus, the line
 	$\{ (t_1, t_2): t_2 - s_{ik}^2 = (2s_{ik}) (t_1 - s_{ik}) \}$ is tangent to the curve $\{(t_1, t_2): t_1^2 = t_2\}$ at the point $(s_{ik}, s_{ik}^2)$ on the curve. Hence, it separates $\mathcal{C}$ and $(s_{ik}, t_{ik})$.
 \end{enumerate*}
-Since there are $O(nK)$ linear and quadratic constraints in total, the separation oracle described above takes $T_\mathcal{S} = O(nK)$ time. 
+Since there are $O(nK)$ constraints in total, such a separation oracle takes $T_\mathcal{S} = O(nK)$ time. 
 
 By \cite[Theorem 4.1.2]{ben2019lectures}, the ellipsoid method finds a solution $x_\epsilon$ such that $f(x_\epsilon) - f^* \leq \epsilon$ in $N(\epsilon)$ number of calls of the oracles and $O(1)n^2N(\epsilon)$ additional arithmetic operations, where 
 $N(\epsilon) = O(1) (nK)^2 \log \left( 2 + \frac{ {\rm Var}_X(f) R}{\epsilon r} \right)$.
@@ -430,9 +408,9 @@ Combining the above, the overall time complexity for computing $x_\epsilon$ is
 $N(\epsilon)(T_\mathcal{S} + T_\mathcal{G}) + O(1)(nK)^2 N(\epsilon) = N(\epsilon)\left(O(n) + O(nK) + O((nK)^2) \right) \nonumber = O\left( (nK)^4 \log \frac{ \sqrt{nK}\left(\log \kappa + \log \frac{2}{\epsilon}\right) }{\epsilon} \right)  = O\left( (nK)^4 \log \frac{ nK \log \kappa }{\epsilon} \right)$. 
 
 Here, since the feasible region has been enlarged, the minimum $f^* \leq -z^*$, where $z^*$ is the true maximum of \eqref{eq:convex-prog-u(ik)}. Therefore, $x_\epsilon$ is also $\epsilon$-close to the ``true'' minimum $-z^*$. 
-Furthermore, we can transform the difference in objective value to the difference in utilities using strong convexity (where $u_i$ are part of the solution $x_\epsilon$), that is, 
+We can transform the difference in objective value to the difference in utilities using strong convexity, i.e.,
 	$\left(-\sum_i B_i \log u_i\right) - \left( -\sum_i B_i \log u^*_i \right) \geq \frac{\sigma}{2}\|u-u^*\|^2$, 
-where a strong convexity modulus is $\sigma = \min_i B_i = \frac{1}{\kappa}$, since $u_i \leq 1$.
+where a strong convexity modulus is clearly $\sigma = \min_i B_i = \frac{1}{\kappa}$.
 Therefore, for each $i$, it must hold that $|u_i - u^*_i| \leq \|u-u^*\| \leq 2\epsilon \kappa$.
 
 To recover a fully feasible $(u_{ik})$ such that $(u_{1k}, \dots, u_{nk}) \in U_k$ and $\sum_k u_{ik} \geq u^*_i - \epsilon$, it suffices to ``discount'' $x_\epsilon$ as follows.
@@ -445,5 +423,5 @@ $\sum_i u_{ik} \geq u^*_i - 2\kappa \epsilon - (K+1)\epsilon$.
 Therefore, to ensure that $\sum_k u_{ik} \geq u^*_i - \epsilon$ for a given tolerance level $\epsilon>0$, it suffices to replace $\epsilon$ by $\frac{\epsilon}{2\kappa+ (K+1)}$, which slightly degrades the time complexity for computing $x_\epsilon$ (due to $\kappa$) and yields a said final time complexity of 
 $O\left( (nK)^4 \left(\log (nK) + \log \frac{\kappa}{\epsilon}  \right) \right)$.
 
-To construct a pure equilibrium allocation given $(u_{ik})$ is easy: since $(u_{1k}, \dots, u_{nK})\in U_k$ for each $k$, simply run Algorithm~\ref{alg:interval-partition-given-feasible-u} on $[a_{k-1}, a_k]$, where we can reuse the sorting permutations for formulating \eqref{eq:convex-prog-u(ik)}. This produces a.e.-disjoint intervals $[l_{ik}, h_{ik}]\subseteq [a_{k-1}, a_k]$ such that $v_i([l_{ik}, h_{ik}]) \geq u_{ik}$. Therefore, the pure allocation $\Theta_i := \cup_k [l_{ik}, h_{ik}]$ satisfies
+To construct a pure equilibrium allocation given $(u_{ik})$ is easy: since $(u_{1k}, \dots, u_{nK})\in U_k$ for each $k$, we can run Algorithm~\ref{alg:interval-partition-given-feasible-u} on $[a_{k-1}, a_k]$, reusing the sorting permutations for formulating \eqref{eq:convex-prog-u(ik)}. This produces a.e.-disjoint intervals $[l_{ik}, h_{ik}]\subseteq [a_{k-1}, a_k]$ such that $v_i([l_{ik}, h_{ik}]) \geq u_{ik}$. Therefore, the pure allocation $\Theta_i := \cup_k [l_{ik}, h_{ik}]$ satisfies
 $v_i(\Theta_i) \geq \sum_k u_{ik} \geq u^*_i - \epsilon$. 
